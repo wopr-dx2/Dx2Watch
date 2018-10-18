@@ -18,9 +18,9 @@ WOPR-Dx2
 
 # References
 Qiita : XamarinでAndroid WearのWatch Faceアプリを作ってみよう！（Vol. 0 : 準備編）
-　https://qiita.com/nia_tn1012/items/fc5d7b2b263c73d8e0e5
+https://qiita.com/nia_tn1012/items/fc5d7b2b263c73d8e0e5
 
 Chronoir_net.Chronica.WatchfaceExtension
-　https://chronoir.net/use-chronica-watchface-extension/
+https://chronoir.net/use-chronica-watchface-extension/
 
 DOBON.net
