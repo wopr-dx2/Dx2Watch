@@ -476,7 +476,7 @@ containing a value of this type.
     public static final class color {
         public static final int action_button_background=0x7f0a0000;
         public static final int analog_hands=0x7f0a001e;
-        public static final int analog_sec_hand=0x7f0a001d;
+        public static final int analog_second_hand=0x7f0a001d;
         public static final int background=0x7f0a001c;
         public static final int black=0x7f0a0001;
         public static final int black_54p=0x7f0a0002;
@@ -508,6 +508,12 @@ containing a value of this type.
         public static final int white=0x7f0a001b;
     }
     public static final class dimen {
+        /** 
+    Because the window insets on round devices are larger than 15dp, this padding only applies
+    to square screens.
+    
+         */
+        public static final int box_inset_layout_padding=0x7f0b0013;
         public static final int card_content_padding_rect_top=0x7f0b0000;
         public static final int circular_button_elevation=0x7f0b0001;
         public static final int circular_button_elevation_pressed=0x7f0b0002;
@@ -524,26 +530,59 @@ containing a value of this type.
         public static final int diag_shade_height_rect=0x7f0b000d;
         public static final int diag_shade_height_round=0x7f0b000e;
         public static final int dismiss_padding=0x7f0b000f;
-        public static final int hour_hand_stroke=0x7f0b0013;
+        public static final int hour_hand_stroke=0x7f0b0015;
+        /** 
+    This padding applies to both square and round screens. The total padding between the buttons
+    and the window insets is box_inset_layout_padding (above variable) on square screens and
+    inner_frame_layout_padding (below variable) on round screens.
+    
+         */
+        public static final int inner_frame_layout_padding=0x7f0b0014;
         public static final int item_touch_helper_max_drag_scroll_per_frame=0x7f0b0010;
         public static final int item_touch_helper_swipe_escape_max_velocity=0x7f0b0011;
         public static final int item_touch_helper_swipe_escape_velocity=0x7f0b0012;
-        public static final int minute_hand_stroke=0x7f0b0014;
-        public static final int second_hand_stroke=0x7f0b0015;
+        public static final int minute_hand_stroke=0x7f0b0016;
+        public static final int second_hand_stroke=0x7f0b0017;
     }
     public static final class drawable {
-        public static final int card_background=0x7f020000;
-        public static final int card_frame=0x7f020001;
-        public static final int card_frame_pressed=0x7f020002;
-        public static final int close_button=0x7f020003;
-        public static final int generic_confirmation=0x7f020004;
-        public static final int generic_confirmation_animation=0x7f020005;
-        public static final int ic_full_cancel=0x7f020006;
-        public static final int ic_full_sad=0x7f020007;
-        public static final int open_on_phone=0x7f020008;
-        public static final int open_on_phone_animation=0x7f020009;
-        public static final int preview=0x7f02000a;
-        public static final int preview_circular=0x7f02000b;
+        public static final int ambient=0x7f020000;
+        public static final int balloonbefore1min=0x7f020001;
+        public static final int balloonbefore5min=0x7f020002;
+        public static final int balloonended=0x7f020003;
+        public static final int card_background=0x7f020004;
+        public static final int card_frame=0x7f020005;
+        public static final int card_frame_pressed=0x7f020006;
+        public static final int chareileen=0x7f020007;
+        public static final int charplayer=0x7f020008;
+        public static final int charshionyan=0x7f020009;
+        public static final int chartemplardragon=0x7f02000a;
+        public static final int close_button=0x7f02000b;
+        public static final int devilsummoner=0x7f02000c;
+        public static final int dx2=0x7f02000d;
+        public static final int f1n=0x7f02000e;
+        public static final int f2n=0x7f02000f;
+        public static final int f3n=0x7f020010;
+        public static final int f4n=0x7f020011;
+        public static final int f5n=0x7f020012;
+        public static final int f6n=0x7f020013;
+        public static final int f7n=0x7f020014;
+        public static final int fullmoon=0x7f020015;
+        public static final int generic_confirmation=0x7f020016;
+        public static final int generic_confirmation_animation=0x7f020017;
+        public static final int ic_full_cancel=0x7f020018;
+        public static final int ic_full_sad=0x7f020019;
+        public static final int n1f=0x7f02001a;
+        public static final int n2f=0x7f02001b;
+        public static final int n3f=0x7f02001c;
+        public static final int n4f=0x7f02001d;
+        public static final int n5f=0x7f02001e;
+        public static final int n6f=0x7f02001f;
+        public static final int n7f=0x7f020020;
+        public static final int newmoon=0x7f020021;
+        public static final int open_on_phone=0x7f020022;
+        public static final int open_on_phone_animation=0x7f020023;
+        public static final int preview=0x7f020024;
+        public static final int preview_circular=0x7f020025;
     }
     public static final class id {
         public static final int alertTitle=0x7f0e0013;
@@ -595,7 +634,13 @@ containing a value of this type.
         public static final int Hello=0x7f0c0001;
         public static final int app_name=0x7f0c0003;
         public static final int dismiss_overlay_button_label=0x7f0c0000;
-        public static final int my_watch_name=0x7f0c0004;
+        /** 
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    
+         */
+        public static final int hello_world=0x7f0c0004;
+        public static final int my_watch_name=0x7f0c0005;
     }
     public static final class style {
         public static final int CardText=0x7f0d0000;

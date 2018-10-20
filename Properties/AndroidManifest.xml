@@ -16,6 +16,7 @@
          Watch Faceアプリの場合、「WAKE_LOCK」と「PROVIDE_BACKGROUND」が必要です。 -->
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
+	<uses-permission android:name="android.permission.VIBRATE" />
 	<!-- application要素は、アプリケーションの構成を定義します。
          label属性は、アプリのタイトル名を表します。
          allowEmbedded属性は、このActivity / Serviceを他のActivityの子として埋め込み、起動できるかどうかを表します。

@@ -252,7 +252,7 @@ namespace Dx2Watch
 			public const int analog_hands = 2131361822;
 			
 			// aapt resource value: 0x7f0a001d
-			public const int analog_sec_hand = 2131361821;
+			public const int analog_second_hand = 2131361821;
 			
 			// aapt resource value: 0x7f0a001c
 			public const int background = 2131361820;
@@ -354,6 +354,9 @@ namespace Dx2Watch
 		public partial class Dimension
 		{
 			
+			// aapt resource value: 0x7f0b0013
+			public const int box_inset_layout_padding = 2131427347;
+			
 			// aapt resource value: 0x7f0b0000
 			public const int card_content_padding_rect_top = 2131427328;
 			
@@ -402,8 +405,11 @@ namespace Dx2Watch
 			// aapt resource value: 0x7f0b000f
 			public const int dismiss_padding = 2131427343;
 			
-			// aapt resource value: 0x7f0b0013
-			public const int hour_hand_stroke = 2131427347;
+			// aapt resource value: 0x7f0b0015
+			public const int hour_hand_stroke = 2131427349;
+			
+			// aapt resource value: 0x7f0b0014
+			public const int inner_frame_layout_padding = 2131427348;
 			
 			// aapt resource value: 0x7f0b0010
 			public const int item_touch_helper_max_drag_scroll_per_frame = 2131427344;
@@ -414,11 +420,11 @@ namespace Dx2Watch
 			// aapt resource value: 0x7f0b0012
 			public const int item_touch_helper_swipe_escape_velocity = 2131427346;
 			
-			// aapt resource value: 0x7f0b0014
-			public const int minute_hand_stroke = 2131427348;
+			// aapt resource value: 0x7f0b0016
+			public const int minute_hand_stroke = 2131427350;
 			
-			// aapt resource value: 0x7f0b0015
-			public const int second_hand_stroke = 2131427349;
+			// aapt resource value: 0x7f0b0017
+			public const int second_hand_stroke = 2131427351;
 			
 			static Dimension()
 			{
@@ -434,40 +440,118 @@ namespace Dx2Watch
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int card_background = 2130837504;
+			public const int Ambient = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int card_frame = 2130837505;
+			public const int BalloonBefore1min = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int card_frame_pressed = 2130837506;
+			public const int BalloonBefore5min = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int close_button = 2130837507;
+			public const int BalloonEnded = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int generic_confirmation = 2130837508;
+			public const int card_background = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int generic_confirmation_animation = 2130837509;
+			public const int card_frame = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int ic_full_cancel = 2130837510;
+			public const int card_frame_pressed = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public const int ic_full_sad = 2130837511;
+			public const int CharEileen = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public const int open_on_phone = 2130837512;
+			public const int CharPlayer = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public const int open_on_phone_animation = 2130837513;
+			public const int CharShionyan = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public const int preview = 2130837514;
+			public const int CharTemplarDragon = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public const int preview_circular = 2130837515;
+			public const int close_button = 2130837515;
+			
+			// aapt resource value: 0x7f02000c
+			public const int DevilSummoner = 2130837516;
+			
+			// aapt resource value: 0x7f02000d
+			public const int Dx2 = 2130837517;
+			
+			// aapt resource value: 0x7f02000e
+			public const int F1N = 2130837518;
+			
+			// aapt resource value: 0x7f02000f
+			public const int F2N = 2130837519;
+			
+			// aapt resource value: 0x7f020010
+			public const int F3N = 2130837520;
+			
+			// aapt resource value: 0x7f020011
+			public const int F4N = 2130837521;
+			
+			// aapt resource value: 0x7f020012
+			public const int F5N = 2130837522;
+			
+			// aapt resource value: 0x7f020013
+			public const int F6N = 2130837523;
+			
+			// aapt resource value: 0x7f020014
+			public const int F7N = 2130837524;
+			
+			// aapt resource value: 0x7f020015
+			public const int FullMoon = 2130837525;
+			
+			// aapt resource value: 0x7f020016
+			public const int generic_confirmation = 2130837526;
+			
+			// aapt resource value: 0x7f020017
+			public const int generic_confirmation_animation = 2130837527;
+			
+			// aapt resource value: 0x7f020018
+			public const int ic_full_cancel = 2130837528;
+			
+			// aapt resource value: 0x7f020019
+			public const int ic_full_sad = 2130837529;
+			
+			// aapt resource value: 0x7f02001a
+			public const int N1F = 2130837530;
+			
+			// aapt resource value: 0x7f02001b
+			public const int N2F = 2130837531;
+			
+			// aapt resource value: 0x7f02001c
+			public const int N3F = 2130837532;
+			
+			// aapt resource value: 0x7f02001d
+			public const int N4F = 2130837533;
+			
+			// aapt resource value: 0x7f02001e
+			public const int N5F = 2130837534;
+			
+			// aapt resource value: 0x7f02001f
+			public const int N6F = 2130837535;
+			
+			// aapt resource value: 0x7f020020
+			public const int N7F = 2130837536;
+			
+			// aapt resource value: 0x7f020021
+			public const int NewMoon = 2130837537;
+			
+			// aapt resource value: 0x7f020022
+			public const int open_on_phone = 2130837538;
+			
+			// aapt resource value: 0x7f020023
+			public const int open_on_phone_animation = 2130837539;
+			
+			// aapt resource value: 0x7f020024
+			public const int preview = 2130837540;
+			
+			// aapt resource value: 0x7f020025
+			public const int preview_circular = 2130837541;
 			
 			static Drawable()
 			{
@@ -658,7 +742,10 @@ namespace Dx2Watch
 			public const int dismiss_overlay_button_label = 2131492864;
 			
 			// aapt resource value: 0x7f0c0004
-			public const int my_watch_name = 2131492868;
+			public const int hello_world = 2131492868;
+			
+			// aapt resource value: 0x7f0c0005
+			public const int my_watch_name = 2131492869;
 			
 			static String()
 			{

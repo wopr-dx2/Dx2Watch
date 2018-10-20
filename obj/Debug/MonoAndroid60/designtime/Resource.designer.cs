@@ -236,7 +236,7 @@ namespace Dx2Watch
 			public const int analog_hands = 2130903044;
 			
 			// aapt resource value: 0x7F030003
-			public const int analog_sec_hand = 2130903043;
+			public const int analog_second_hand = 2130903043;
 			
 			// aapt resource value: 0x7F030002
 			public const int background = 2130903042;
@@ -338,6 +338,9 @@ namespace Dx2Watch
 		public partial class Dimension
 		{
 			
+			// aapt resource value: 0x7F040002
+			public const int box_inset_layout_padding = 2130968578;
+			
 			// aapt resource value: 0x7F090000
 			public const int card_content_padding_rect_top = 2131296256;
 			
@@ -386,8 +389,11 @@ namespace Dx2Watch
 			// aapt resource value: 0x7F09000F
 			public const int dismiss_padding = 2131296271;
 			
-			// aapt resource value: 0x7F040002
-			public const int hour_hand_stroke = 2130968578;
+			// aapt resource value: 0x7F040004
+			public const int hour_hand_stroke = 2130968580;
+			
+			// aapt resource value: 0x7F040003
+			public const int inner_frame_layout_padding = 2130968579;
 			
 			// aapt resource value: 0x7F020000
 			public const int item_touch_helper_max_drag_scroll_per_frame = 2130837504;
@@ -398,11 +404,11 @@ namespace Dx2Watch
 			// aapt resource value: 0x7F020002
 			public const int item_touch_helper_swipe_escape_velocity = 2130837506;
 			
-			// aapt resource value: 0x7F040003
-			public const int minute_hand_stroke = 2130968579;
+			// aapt resource value: 0x7F040005
+			public const int minute_hand_stroke = 2130968581;
 			
-			// aapt resource value: 0x7F040004
-			public const int second_hand_stroke = 2130968580;
+			// aapt resource value: 0x7F040006
+			public const int second_hand_stroke = 2130968582;
 			
 			static Dimension()
 			{
@@ -417,6 +423,18 @@ namespace Dx2Watch
 		public partial class Drawable
 		{
 			
+			// aapt resource value: 0x7F010002
+			public const int Ambient = 2130771970;
+			
+			// aapt resource value: 0x7F010003
+			public const int BalloonBefore1min = 2130771971;
+			
+			// aapt resource value: 0x7F010004
+			public const int BalloonBefore5min = 2130771972;
+			
+			// aapt resource value: 0x7F010005
+			public const int BalloonEnded = 2130771973;
+			
 			// aapt resource value: 0x7F020000
 			public const int card_background = 2130837504;
 			
@@ -426,8 +444,50 @@ namespace Dx2Watch
 			// aapt resource value: 0x7F020002
 			public const int card_frame_pressed = 2130837506;
 			
+			// aapt resource value: 0x7F010006
+			public const int CharEileen = 2130771974;
+			
+			// aapt resource value: 0x7F010007
+			public const int CharPlayer = 2130771975;
+			
+			// aapt resource value: 0x7F010008
+			public const int CharShionyan = 2130771976;
+			
+			// aapt resource value: 0x7F010009
+			public const int CharTemplarDragon = 2130771977;
+			
 			// aapt resource value: 0x7F020003
 			public const int close_button = 2130837507;
+			
+			// aapt resource value: 0x7F010010
+			public const int DevilSummoner = 2130771984;
+			
+			// aapt resource value: 0x7F010011
+			public const int Dx2 = 2130771985;
+			
+			// aapt resource value: 0x7F010012
+			public const int F1N = 2130771986;
+			
+			// aapt resource value: 0x7F010013
+			public const int F2N = 2130771987;
+			
+			// aapt resource value: 0x7F010014
+			public const int F3N = 2130771988;
+			
+			// aapt resource value: 0x7F010015
+			public const int F4N = 2130771989;
+			
+			// aapt resource value: 0x7F010016
+			public const int F5N = 2130771990;
+			
+			// aapt resource value: 0x7F010017
+			public const int F6N = 2130771991;
+			
+			// aapt resource value: 0x7F010018
+			public const int F7N = 2130771992;
+			
+			// aapt resource value: 0x7F010019
+			public const int FullMoon = 2130771993;
 			
 			// aapt resource value: 0x7F020004
 			public const int generic_confirmation = 2130837508;
@@ -441,17 +501,41 @@ namespace Dx2Watch
 			// aapt resource value: 0x7F020007
 			public const int ic_full_sad = 2130837511;
 			
+			// aapt resource value: 0x7F010020
+			public const int N1F = 2130772000;
+			
+			// aapt resource value: 0x7F010021
+			public const int N2F = 2130772001;
+			
+			// aapt resource value: 0x7F010022
+			public const int N3F = 2130772002;
+			
+			// aapt resource value: 0x7F010023
+			public const int N4F = 2130772003;
+			
+			// aapt resource value: 0x7F010024
+			public const int N5F = 2130772004;
+			
+			// aapt resource value: 0x7F010025
+			public const int N6F = 2130772005;
+			
+			// aapt resource value: 0x7F010026
+			public const int N7F = 2130772006;
+			
+			// aapt resource value: 0x7F010027
+			public const int NewMoon = 2130772007;
+			
 			// aapt resource value: 0x7F020008
 			public const int open_on_phone = 2130837512;
 			
 			// aapt resource value: 0x7F020009
 			public const int open_on_phone_animation = 2130837513;
 			
-			// aapt resource value: 0x7F010002
-			public const int preview = 2130771970;
+			// aapt resource value: 0x7F010028
+			public const int preview = 2130772008;
 			
-			// aapt resource value: 0x7F010003
-			public const int preview_circular = 2130771971;
+			// aapt resource value: 0x7F010029
+			public const int preview_circular = 2130772009;
 			
 			static Drawable()
 			{
@@ -629,8 +713,8 @@ namespace Dx2Watch
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7F050005
-			public const int ApplicationName = 2131034117;
+			// aapt resource value: 0x7F050006
+			public const int ApplicationName = 2131034118;
 			
 			// aapt resource value: 0x7F050002
 			public const int app_name = 2131034114;
@@ -638,11 +722,14 @@ namespace Dx2Watch
 			// aapt resource value: 0x7F0A0000
 			public const int dismiss_overlay_button_label = 2131361792;
 			
-			// aapt resource value: 0x7F050004
-			public const int Hello = 2131034116;
+			// aapt resource value: 0x7F050005
+			public const int Hello = 2131034117;
 			
 			// aapt resource value: 0x7F050003
-			public const int my_watch_name = 2131034115;
+			public const int hello_world = 2131034115;
+			
+			// aapt resource value: 0x7F050004
+			public const int my_watch_name = 2131034116;
 			
 			static String()
 			{
