@@ -104,9 +104,15 @@ namespace Dx2Watch
             get { return now; }
             set
             {
+                // システムで時刻合わせをすると盤面とかメッセージのタイミングが狂う
+                // プログラム側では秒単位で変化してるはずなので
+                // 1 分以上変化がなかったら初期化する
+                if (Math.Abs(now.Subtract(value).TotalMinutes) > 1)
+                {
+                    Initialize(value);
+                }
                 now = value;
                 Calc();
-                //Age = MoonAges.Full;
             }
         }
 
