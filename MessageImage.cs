@@ -131,21 +131,23 @@ namespace Dx2Watch
             hasPost = false;
             Visible = false;
 
-            paint = new Paint();
-            paint.AntiAlias = true;
+            paint = new Paint
+            {
+                AntiAlias = true
+            };
 
             //var drawablePlayer = owner.Resources.GetDrawable(Resource.Drawable.CharPlayer);
             //var drawableTemplarDragon = owner.Resources.GetDrawable(Resource.Drawable.CharTemplarDragon);
             //var drawableEileen = owner.Resources.GetDrawable(Resource.Drawable.CharEileen);
             //var drawableShionyan = owner.Resources.GetDrawable(Resource.Drawable.CharShionyan);
 
-            // Resource から Bitmap を読み込み、Rescale 前の状態で変数にセット
+            // 'Resources.GetDrawable(int)' は旧形式です('deprecated')
             //bmpPlayer = (owner.Resources.GetDrawable(Resource.Drawable.CharPlayer) as BitmapDrawable).Bitmap;
             //bmpTemplarDragon = (owner.Resources.GetDrawable(Resource.Drawable.CharTemplarDragon) as BitmapDrawable).Bitmap;
             //bmpEileen = (owner.Resources.GetDrawable(Resource.Drawable.CharEileen) as BitmapDrawable).Bitmap;
             //bmpShionyan = (owner.Resources.GetDrawable(Resource.Drawable.CharShionyan) as BitmapDrawable).Bitmap;
 
-            // 'Resources.GetDrawable(int)' は旧形式です('deprecated')
+            // Resource から Bitmap を読み込み、Rescale 前の状態で変数にセット
             bmpPlayer = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.CharPlayer, null)
                 as BitmapDrawable).Bitmap;
@@ -163,12 +165,12 @@ namespace Dx2Watch
             //var drawableBefore1min = owner.Resources.GetDrawable(Resource.Drawable.BalloonBefore1min);
             //var drawableEnded = owner.Resources.GetDrawable(Resource.Drawable.BalloonEnded);
 
-            // Resource から Bitmap を読み込み、Rescale 前の状態で変数にセット
+            // 'Resources.GetDrawable(int)' は旧形式です('deprecated')
             //bmpBefore5min = (owner.Resources.GetDrawable(Resource.Drawable.BalloonBefore5min) as BitmapDrawable).Bitmap;
             //bmpBefore1min = (owner.Resources.GetDrawable(Resource.Drawable.BalloonBefore1min) as BitmapDrawable).Bitmap;
             //bmpEnded = (owner.Resources.GetDrawable(Resource.Drawable.BalloonEnded) as BitmapDrawable).Bitmap;
 
-            // 'Resources.GetDrawable(int)' は旧形式です('deprecated')
+            // Resource から Bitmap を読み込み、Rescale 前の状態で変数にセット
             bmpBefore5min = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.BalloonBefore5min, null)
                 as BitmapDrawable).Bitmap;

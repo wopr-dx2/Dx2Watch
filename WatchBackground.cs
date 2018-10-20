@@ -114,11 +114,11 @@ namespace Dx2Watch
         private Bitmap backgroundN7F;
         private Bitmap backgroundDevilSummoner;
         private Bitmap backgroundDx2;
-        //private Bitmap backgroundAmbient;         // Ambient はとりあえず黒で
+        private Bitmap backgroundAmbient;         // Ambient はとりあえず黒で
 
         // Scaled 用 Bitmap
         private Bitmap backgroundScaledBitmap;
-        //private Bitmap backgroundScaledAmbient;   // Ambient はとりあえず黒で
+        private Bitmap backgroundScaledAmbient;   // Ambient はとりあえず黒で
 
         // 書き換え必須フラグ
         bool mustRescaled = true;
@@ -126,53 +126,121 @@ namespace Dx2Watch
         public WatchBackground(CanvasWatchFaceService owner)
         {
             // 背景用 Paint の作成
-            backgroundPaint = new Paint();
-            // リソースから背景色を読み込みます
-            backgroundPaint.Color =
+            backgroundPaint = new Paint
+            {
+                // リソースから背景色を読み込みます
+                Color =
                 WatchfaceUtility.ConvertARGBToColor(
-                    ContextCompat.GetColor(owner, Resource.Color.background));
+                    ContextCompat.GetColor(owner, Resource.Color.background))
+            };
 
-            // リソースから月齢画像を読み込みます
-            var backgroundDrawableFullMoon = owner.Resources.GetDrawable(Resource.Drawable.FullMoon);
-            var backgroundDrawableF7N = owner.Resources.GetDrawable(Resource.Drawable.F7N);
-            var backgroundDrawableF6N = owner.Resources.GetDrawable(Resource.Drawable.F6N);
-            var backgroundDrawableF5N = owner.Resources.GetDrawable(Resource.Drawable.F5N);
-            var backgroundDrawableF4N = owner.Resources.GetDrawable(Resource.Drawable.F4N);
-            var backgroundDrawableF3N = owner.Resources.GetDrawable(Resource.Drawable.F3N);
-            var backgroundDrawableF2N = owner.Resources.GetDrawable(Resource.Drawable.F2N);
-            var backgroundDrawableF1N = owner.Resources.GetDrawable(Resource.Drawable.F1N);
-            var backgroundDrawableNewMoon = owner.Resources.GetDrawable(Resource.Drawable.NewMoon);
-            var backgroundDrawableN1F = owner.Resources.GetDrawable(Resource.Drawable.N1F);
-            var backgroundDrawableN2F = owner.Resources.GetDrawable(Resource.Drawable.N2F);
-            var backgroundDrawableN3F = owner.Resources.GetDrawable(Resource.Drawable.N3F);
-            var backgroundDrawableN4F = owner.Resources.GetDrawable(Resource.Drawable.N4F);
-            var backgroundDrawableN5F = owner.Resources.GetDrawable(Resource.Drawable.N5F);
-            var backgroundDrawableN6F = owner.Resources.GetDrawable(Resource.Drawable.N6F);
-            var backgroundDrawableN7F = owner.Resources.GetDrawable(Resource.Drawable.N7F);
-            var backgroundDrawableDevilSummoner = owner.Resources.GetDrawable(Resource.Drawable.DevilSummoner);
-            var backgroundDrawableDx2 = owner.Resources.GetDrawable(Resource.Drawable.Dx2);
-            //var backgroundDrawableAmbient = owner.Resources.GetDrawable(Resource.Drawable.Ambient);    //
+            #region 'Resources.GetDrawable(int)' は旧形式です('deprecated')
 
-            // 月齢画像を Bitmap に変換
-            backgroundFullMoon = (backgroundDrawableFullMoon as BitmapDrawable).Bitmap;
-            backgroundF7N = (backgroundDrawableF7N as BitmapDrawable).Bitmap;
-            backgroundF6N = (backgroundDrawableF6N as BitmapDrawable).Bitmap;
-            backgroundF5N = (backgroundDrawableF5N as BitmapDrawable).Bitmap;
-            backgroundF4N = (backgroundDrawableF4N as BitmapDrawable).Bitmap;
-            backgroundF3N = (backgroundDrawableF3N as BitmapDrawable).Bitmap;
-            backgroundF2N = (backgroundDrawableF2N as BitmapDrawable).Bitmap;
-            backgroundF1N = (backgroundDrawableF1N as BitmapDrawable).Bitmap;
-            backgroundNewMoon = (backgroundDrawableNewMoon as BitmapDrawable).Bitmap;
-            backgroundN1F = (backgroundDrawableN1F as BitmapDrawable).Bitmap;
-            backgroundN2F = (backgroundDrawableN2F as BitmapDrawable).Bitmap;
-            backgroundN3F = (backgroundDrawableN3F as BitmapDrawable).Bitmap;
-            backgroundN4F = (backgroundDrawableN4F as BitmapDrawable).Bitmap;
-            backgroundN5F = (backgroundDrawableN5F as BitmapDrawable).Bitmap;
-            backgroundN6F = (backgroundDrawableN6F as BitmapDrawable).Bitmap;
-            backgroundN7F = (backgroundDrawableN7F as BitmapDrawable).Bitmap;
-            backgroundDevilSummoner = (backgroundDrawableDevilSummoner as BitmapDrawable).Bitmap;
-            backgroundDx2 = (backgroundDrawableDx2 as BitmapDrawable).Bitmap;
-            //backgroundAmbient = (backgroundDrawableAmbient as BitmapDrawable).Bitmap;
+            //// リソースから月齢画像を読み込みます
+            //var backgroundDrawableFullMoon = owner.Resources.GetDrawable(Resource.Drawable.FullMoon);
+            //var backgroundDrawableF7N = owner.Resources.GetDrawable(Resource.Drawable.F7N);
+            //var backgroundDrawableF6N = owner.Resources.GetDrawable(Resource.Drawable.F6N);
+            //var backgroundDrawableF5N = owner.Resources.GetDrawable(Resource.Drawable.F5N);
+            //var backgroundDrawableF4N = owner.Resources.GetDrawable(Resource.Drawable.F4N);
+            //var backgroundDrawableF3N = owner.Resources.GetDrawable(Resource.Drawable.F3N);
+            //var backgroundDrawableF2N = owner.Resources.GetDrawable(Resource.Drawable.F2N);
+            //var backgroundDrawableF1N = owner.Resources.GetDrawable(Resource.Drawable.F1N);
+            //var backgroundDrawableNewMoon = owner.Resources.GetDrawable(Resource.Drawable.NewMoon);
+            //var backgroundDrawableN1F = owner.Resources.GetDrawable(Resource.Drawable.N1F);
+            //var backgroundDrawableN2F = owner.Resources.GetDrawable(Resource.Drawable.N2F);
+            //var backgroundDrawableN3F = owner.Resources.GetDrawable(Resource.Drawable.N3F);
+            //var backgroundDrawableN4F = owner.Resources.GetDrawable(Resource.Drawable.N4F);
+            //var backgroundDrawableN5F = owner.Resources.GetDrawable(Resource.Drawable.N5F);
+            //var backgroundDrawableN6F = owner.Resources.GetDrawable(Resource.Drawable.N6F);
+            //var backgroundDrawableN7F = owner.Resources.GetDrawable(Resource.Drawable.N7F);
+            //var backgroundDrawableDevilSummoner = owner.Resources.GetDrawable(Resource.Drawable.DevilSummoner);
+            //var backgroundDrawableDx2 = owner.Resources.GetDrawable(Resource.Drawable.Dx2);
+            ////var backgroundDrawableAmbient = owner.Resources.GetDrawable(Resource.Drawable.Ambient);    //
+
+            //// 月齢画像を Bitmap に変換
+            //backgroundFullMoon = (backgroundDrawableFullMoon as BitmapDrawable).Bitmap;
+            //backgroundF7N = (backgroundDrawableF7N as BitmapDrawable).Bitmap;
+            //backgroundF6N = (backgroundDrawableF6N as BitmapDrawable).Bitmap;
+            //backgroundF5N = (backgroundDrawableF5N as BitmapDrawable).Bitmap;
+            //backgroundF4N = (backgroundDrawableF4N as BitmapDrawable).Bitmap;
+            //backgroundF3N = (backgroundDrawableF3N as BitmapDrawable).Bitmap;
+            //backgroundF2N = (backgroundDrawableF2N as BitmapDrawable).Bitmap;
+            //backgroundF1N = (backgroundDrawableF1N as BitmapDrawable).Bitmap;
+            //backgroundNewMoon = (backgroundDrawableNewMoon as BitmapDrawable).Bitmap;
+            //backgroundN1F = (backgroundDrawableN1F as BitmapDrawable).Bitmap;
+            //backgroundN2F = (backgroundDrawableN2F as BitmapDrawable).Bitmap;
+            //backgroundN3F = (backgroundDrawableN3F as BitmapDrawable).Bitmap;
+            //backgroundN4F = (backgroundDrawableN4F as BitmapDrawable).Bitmap;
+            //backgroundN5F = (backgroundDrawableN5F as BitmapDrawable).Bitmap;
+            //backgroundN6F = (backgroundDrawableN6F as BitmapDrawable).Bitmap;
+            //backgroundN7F = (backgroundDrawableN7F as BitmapDrawable).Bitmap;
+            //backgroundDevilSummoner = (backgroundDrawableDevilSummoner as BitmapDrawable).Bitmap;
+            //backgroundDx2 = (backgroundDrawableDx2 as BitmapDrawable).Bitmap;
+            ////backgroundAmbient = (backgroundDrawableAmbient as BitmapDrawable).Bitmap;
+
+            #endregion
+
+            #region Resource から Bitmap を読み込み、Rescale 前の状態で変数にセット
+
+            backgroundFullMoon = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.FullMoon, null)
+                as BitmapDrawable).Bitmap;
+            backgroundF7N = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.F7N, null)
+                as BitmapDrawable).Bitmap;
+            backgroundF6N = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.F6N, null)
+                as BitmapDrawable).Bitmap;
+            backgroundF5N = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.F5N, null)
+                as BitmapDrawable).Bitmap;
+            backgroundF4N = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.F4N, null)
+                as BitmapDrawable).Bitmap;
+            backgroundF3N = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.F3N, null)
+                as BitmapDrawable).Bitmap;
+            backgroundF2N = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.F2N, null)
+                as BitmapDrawable).Bitmap;
+            backgroundF1N = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.F1N, null)
+                as BitmapDrawable).Bitmap;
+            backgroundNewMoon = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.NewMoon, null)
+                as BitmapDrawable).Bitmap;
+            backgroundN1F = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.N1F, null)
+                as BitmapDrawable).Bitmap;
+            backgroundN2F = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.N2F, null)
+                as BitmapDrawable).Bitmap;
+            backgroundN3F = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.N3F, null)
+                as BitmapDrawable).Bitmap;
+            backgroundN4F = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.N4F, null)
+                as BitmapDrawable).Bitmap;
+            backgroundN5F = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.N5F, null)
+                as BitmapDrawable).Bitmap;
+            backgroundN6F = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.N6F, null)
+                as BitmapDrawable).Bitmap;
+            backgroundN7F = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.N7F, null)
+                as BitmapDrawable).Bitmap;
+            backgroundDevilSummoner = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.DevilSummoner, null)
+                as BitmapDrawable).Bitmap;
+            backgroundDx2 = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.Dx2, null)
+                as BitmapDrawable).Bitmap;
+            backgroundAmbient = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.Ambient, null)
+                as BitmapDrawable).Bitmap;
+
+            #endregion
         }
 
         public void Draw(Canvas canvas, Rect bounds)

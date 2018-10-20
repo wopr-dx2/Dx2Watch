@@ -106,11 +106,12 @@ namespace Dx2Watch
             hasPost = false;
             Visible = false;
 
-            paint = new Paint();
-
-            paint.AntiAlias = true;
-            paint.Color = Color.White;
-            paint.TextSize = 18;
+            paint = new Paint
+            {
+                AntiAlias = true,
+                Color = Color.White,
+                TextSize = 18
+            };
 
             handler = new Handler();
             action = () => { Visible = false; };
