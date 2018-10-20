@@ -765,7 +765,7 @@ namespace Dx2Watch
                     #region next moon time
 
                     watchGraph.LastFullMoon = moon.LastFullMoon;
-                    //watchGraph.MoonAge = moon.Age;
+                    watchGraph.MoonAge = moon.Age;
                     watchGraph.Draw(canvas, bounds);
 
                     #endregion

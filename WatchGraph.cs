@@ -120,68 +120,70 @@ namespace Dx2Watch
         {
             if (!IsListMode)   // 左上の円弧
             {
-                // init
-
-                path.Reset();
-                paint.Reset();
-
-                // graph
-
-                path.AddArc(rectF, 200, 60);        // 左上 200 度から 60 度分
-                paint.AntiAlias = true;
-                paint.Color = COLOR_PURPLE;
-                paint.SetStyle(Paint.Style.Stroke); 
-                paint.StrokeWidth = 20;
-                paint.StrokeCap = Paint.Cap.Butt;
-                canvas.DrawPath(path, paint);
-
-                // gray mm = 46 ～ 59
-
-                if (NextFullMoon.Minute >= 46)
+                if (MoonAge != MoonAges.Full)
                 {
+                    // init
+
                     path.Reset();
+                    paint.Reset();
 
-                    float start = 200f + (55 - NextFullMoon.Minute) * 6;
-                    if (start < 200)
-                    {
-                        start = 200;
-                    }
+                    #region graph purple
 
-                    float sweep = 30;
-                    if (NextFullMoon.Minute <= 49)
-                    {
-                        sweep = (NextFullMoon.Minute - 45) * 6;
-                    }
-                    else if (NextFullMoon.Minute >= 56)
-                    {
-                        sweep = (60 - NextFullMoon.Minute) * 6;
-                    }
-
-                    path.AddArc(rectF, start, sweep);
-                    paint.Color = COLOR_GRAY;
+                    path.AddArc(rectF, 200, 60);        // 左上 200 度から 60 度分
+                    paint.AntiAlias = true;
+                    paint.Color = COLOR_PURPLE;
+                    paint.SetStyle(Paint.Style.Stroke);
+                    paint.StrokeWidth = 20;
+                    paint.StrokeCap = Paint.Cap.Butt;
                     canvas.DrawPath(path, paint);
+
+                    #endregion
+
+                    #region graph gray mm = 46～59
+
+                    if (NextFullMoon.Minute >= 46)
+                    {
+                        path.Reset();
+
+                        float start = 200f + (55 - NextFullMoon.Minute) * 6;
+                        if (start < 200)
+                        {
+                            start = 200;
+                        }
+
+                        float sweep = 30;
+                        if (NextFullMoon.Minute <= 49)
+                        {
+                            sweep = (NextFullMoon.Minute - 45) * 6;
+                        }
+                        else if (NextFullMoon.Minute >= 56)
+                        {
+                            sweep = (60 - NextFullMoon.Minute) * 6;
+                        }
+
+                        path.AddArc(rectF, start, sweep);
+                        paint.Color = COLOR_GRAY;
+                        canvas.DrawPath(path, paint);
+                    }
+
+                    #endregion
+
+                    #region text on graph
+
+                    paint.Reset();
+                    paint.AntiAlias = true;
+                    paint.Color = Color.White;
+                    paint.TextSize = 18;
+
+                    path.Reset();
+                    path.AddCircle(180f, 180f, 141f, Path.Direction.Cw);
+
+                    canvas.DrawTextOnPath(
+                        NextFullMoon.ToString(FORMAT_HHMM, ci),
+                        path, 540, 0, paint);
+
+                    #endregion
                 }
-
-                // text
-
-                paint.Reset();
-                paint.AntiAlias = true;
-                //if (MoonAge == MoonAges.Full)
-                //{
-                //    paint.Color = Color.Black;
-                //}
-                //else
-                //{
-                paint.Color = Color.White;
-                //}
-                paint.TextSize = 18;
-
-                path.Reset();
-                path.AddCircle(180f, 180f, 141f, Path.Direction.Cw);
-
-                canvas.DrawTextOnPath(
-                    NextFullMoon.ToString(FORMAT_HHMM, ci),
-                    path, 540, 0, paint);
             }
             else                        // リスト表示
             {
@@ -200,7 +202,7 @@ namespace Dx2Watch
                 {
                     dateTime = NextFullMoon.AddMinutes(INTERVAL_MINUTES * i);
 
-                    // graph
+                    #region graph purple
 
                     paint.Color = COLOR_PURPLE;
 
@@ -211,7 +213,9 @@ namespace Dx2Watch
 
                     canvas.DrawRect(rect, paint);
 
-                    // gray mm = 46 ～ 59
+                    #endregion
+
+                    #region graph gray mm = 46～59
 
                     if (dateTime.Minute >= 46)
                     {
@@ -236,7 +240,9 @@ namespace Dx2Watch
                         rect.Bottom = rect.Top + 20;
                     }
 
-                    // text - date
+                    #endregion
+
+                    #region text: date
 
                     paint.Color = Color.White;
 
@@ -258,13 +264,17 @@ namespace Dx2Watch
                         }
                     }
 
-                    // text - time
+                    #endregion
+
+                    #region text: time
 
                     widthF = paint.MeasureText(dateTime.ToString(FORMAT_HHMM));
                     canvas.DrawText(
                         dateTime.ToString(FORMAT_HHMM),
                         rect.Left + (rect.Width() - widthF) / 2,
                         rect.Top + rect.Height() - 4, paint);
+
+                    #endregion
                 }
             }
         }
@@ -285,6 +295,6 @@ namespace Dx2Watch
         }
 
         public DateTime NextFullMoon { get; private set; }
-        //public MoonAges MoonAge { get; set; }
+        public MoonAges MoonAge { get; set; }
     }
 }
