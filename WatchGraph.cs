@@ -147,7 +147,7 @@ namespace Dx2Watch
                         start = 200;
                     }
 
-                    float sweep = 60;
+                    float sweep = 30;
                     if (NextFullMoon.Minute <= 49)
                     {
                         sweep = (NextFullMoon.Minute - 45) * 6;
