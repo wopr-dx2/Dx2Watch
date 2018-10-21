@@ -755,18 +755,24 @@ namespace Dx2Watch
                     watchBackground.MoonAge = moon.Age;
                     watchBackground.Draw(canvas, bounds);
 
-                    #region 日付 右側 ddd d MMM
-
-                    watchDate.Calendar = nowTime;
-                    watchDate.Draw(canvas, bounds);
-
-                    #endregion
-
-                    #region next moon time
+                    #region next fullmoon graph
 
                     watchGraph.LastFullMoon = moon.LastFullMoon;
                     watchGraph.MoonAge = moon.Age;
                     watchGraph.Draw(canvas, bounds);
+
+                    #endregion
+
+                    #region 日付 右側 ddd d MMM
+
+                    // 満月の時は描かへんいうんもありかな
+                    if (watchBackground.FaceMode == WatchBackground.FaceModes.Logo ||
+                        moon.Age != MoonAges.Full ||
+                        watchGraph.IsListMode)
+                    {
+                        watchDate.Calendar = nowTime;
+                        watchDate.Draw(canvas, bounds);
+                    }
 
                     #endregion
 
@@ -795,7 +801,6 @@ namespace Dx2Watch
                     }
 
                     watchNotify.Draw(canvas, bounds);
-                    //messageText.Draw(canvas, bounds);
 
                     #endregion
                 }

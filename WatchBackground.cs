@@ -248,10 +248,26 @@ namespace Dx2Watch
             int width = bounds.Width();
             int height = bounds.Height();
 
-            // アンビエントモード 又は ListMode 又は 表示 Mode 不明の場合
-            if (isInAmbientMode || IsListMode)
+            // アンビエントモード
+            if (isInAmbientMode)
             {
                 // 黒で塗りつぶして終了
+                //canvas.DrawColor(Color.Black);
+
+                // 背景描画
+                if (mustRescaled)
+                {
+                    backgroundScaledAmbient =
+                        Bitmap.CreateScaledBitmap(backgroundScaledAmbient, width, height, true);
+
+                    mustRescaled = false;
+                }
+
+                canvas.DrawBitmap(backgroundScaledAmbient, 0, 0, null);
+            }
+            else if (IsListMode)    // ListMode
+            {
+                // 黒で塗りつぶす
                 canvas.DrawColor(Color.Black);
             }
             else
@@ -260,8 +276,10 @@ namespace Dx2Watch
                 {
                     if (faceMode == FaceModes.Logo)
                     {
+                        //backgroundScaledBitmap =
+                        //    Bitmap.CreateScaledBitmap(backgroundDx2, width, height, true);
                         backgroundScaledBitmap =
-                            Bitmap.CreateScaledBitmap(backgroundDx2, width, height, true);
+                            Bitmap.CreateScaledBitmap(backgroundDevilSummoner, width, height, true);
                     }
                     else
                     {

@@ -152,16 +152,10 @@ namespace Dx2Watch
             switch (Mode)
             {
                 case Modes.Text:
-                    if (msgText.Visible)
-                    {
-                        msgText.Draw(canvas, bounds);
-                    }
+                    msgText.Draw(canvas, bounds);
                     break;
                 case Modes.Image:
-                    if (msgImage.Visible)
-                    {
-                        msgImage.Draw(canvas, bounds);
-                    }
+                    msgImage.Draw(canvas, bounds);
                     break;
                 default:
                     break;

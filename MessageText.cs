@@ -104,7 +104,7 @@ namespace Dx2Watch
         {
             Message = Messages.Before5min;
             hasPost = false;
-            Visible = false;
+            visible = false;
 
             paint = new Paint
             {
@@ -114,7 +114,7 @@ namespace Dx2Watch
             };
 
             handler = new Handler();
-            action = () => { Visible = false; };
+            action = () => { visible = false; };
         }
 
         //void callback()
@@ -128,25 +128,25 @@ namespace Dx2Watch
 
             Cancel();
 
-            if (!Visible)
+            if (!visible)
             {
-                Visible = true;
+                visible = true;
                 hasPost = true;
             }
         }
 
         public void Cancel()
         {
-            if (Visible)
+            if (visible)
             {
                 handler.RemoveCallbacksAndMessages(null);
-                Visible = false;
+                visible = false;
             }
         }
 
         public void Draw(Canvas canvas, Rect bounds)
         {
-            if (!Visible)
+            if (!visible)
             {
                 return;
             }
@@ -189,6 +189,6 @@ namespace Dx2Watch
 
         private bool hasPost;
 
-        public bool Visible { get; set; }
+        bool visible;
     }
 }

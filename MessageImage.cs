@@ -90,6 +90,9 @@ using Chronoir_net.Chronica.WatchfaceExtension;
 
 namespace Dx2Watch
 {
+    /// <summary>
+    /// イメージでのメッセージ描画
+    /// </summary>
     class MessageImage
     {
         // 描画用 Paint オブジェクト
@@ -114,9 +117,12 @@ namespace Dx2Watch
         Handler handler;
         Action action;
 
-        long seconds;               // 表示秒数の保管
-        bool hasPost;               // true: PostDelayed の実行
-        public bool Visible { get; set; }               // 表示状態
+        // 表示秒数の保管（Show で設定して Draw で使用する）
+        long seconds;
+        // true: PostDelayed の実行
+        bool hasPost;
+        // 表示状態
+        bool visible;        
         bool mustCharRescaled;      // Rescale をするか
         bool mustBalloonRescaled;   // 　〃
 
@@ -129,7 +135,7 @@ namespace Dx2Watch
             Balloon = Messages.none;
 
             hasPost = false;
-            Visible = false;
+            visible = false;
 
             paint = new Paint
             {
@@ -183,7 +189,7 @@ namespace Dx2Watch
 
             // 遅延実行
             handler = new Handler();
-            action = () => { Visible = false; };
+            action = () => { visible = false; };
         }
 
         /// <summary>
@@ -197,7 +203,7 @@ namespace Dx2Watch
             // 表示済みの場合も考えて、一旦キャンセルしておく
             Cancel();
 
-            Visible = true;
+            visible = true;
             hasPost = true;
             mustCharRescaled = true;
             mustBalloonRescaled = true;
@@ -209,10 +215,10 @@ namespace Dx2Watch
         /// </summary>
         public void Cancel()
         {
-            if (Visible)
+            if (visible)
             {
                 handler.RemoveCallbacksAndMessages(null);
-                Visible = false;
+                visible = false;
             }
         }
 
@@ -259,7 +265,7 @@ namespace Dx2Watch
         public void Draw(Canvas canvas, Rect bounds)
         {
             // 非表示状態の場合（Text モードの場合）は終了
-            if (!Visible)
+            if (!visible)
             {
                 return;
             }
