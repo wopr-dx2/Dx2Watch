@@ -106,154 +106,110 @@ namespace Dx2Watch
             var resources = owner.Resources;
 
             // 時針用のPaintグラフィックスオブジェクトを生成します。
-            hourHandPaint = new Paint();
-            // 時針の色を設定します
-            hourHandPaint.Color = 
-                WatchfaceUtility.ConvertARGBToColor(
-                    ContextCompat.GetColor(owner, Resource.Color.analog_hands));
-            // 時針の幅を設定します。
-            hourHandPaint.StrokeWidth = resources.GetDimension(Resource.Dimension.hour_hand_stroke);
-            // アンチエイリアスを有効にします。
-            hourHandPaint.AntiAlias = true;
-            // 線端の形は丸形を指定します。
-            hourHandPaint.StrokeCap = Paint.Cap.Round;
+            hourHandPaint = new Paint
+            {
+                // 時針の色を設定します
+                Color =
+                    WatchfaceUtility.ConvertARGBToColor(
+                        ContextCompat.GetColor(owner, Resource.Color.analog_hands)),
+                // 時針の幅を設定します。
+                StrokeWidth = resources.GetDimension(Resource.Dimension.hour_hand_stroke),
+                // アンチエイリアスを有効にします。
+                AntiAlias = true,
+                // 線端の形は丸形を指定します。
+                StrokeCap = Paint.Cap.Round
+            };
 
             // 時針の縁を準備します
-            hourHandBackPaint = new Paint();
-            hourHandBackPaint.Color = Color.Black;
-            hourHandBackPaint.StrokeWidth = hourHandPaint.StrokeWidth + 3;
-            hourHandBackPaint.AntiAlias = hourHandPaint.AntiAlias;
-            hourHandBackPaint.StrokeCap = hourHandPaint.StrokeCap;
+            hourHandBackPaint = new Paint
+            {
+                Color = Color.Black,
+                StrokeWidth = hourHandPaint.StrokeWidth + 3,
+                AntiAlias = hourHandPaint.AntiAlias,
+                StrokeCap = hourHandPaint.StrokeCap
+            };
 
             // 分針用のPaintグラフィックスオブジェクトを生成します。
-            minuteHandPaint = new Paint();
-            minuteHandPaint.Color = hourHandPaint.Color;
-            minuteHandPaint.StrokeWidth = resources.GetDimension(Resource.Dimension.minute_hand_stroke);
-            minuteHandPaint.AntiAlias = true;
-            minuteHandPaint.StrokeCap = Paint.Cap.Round;
+            minuteHandPaint = new Paint
+            {
+                Color = hourHandPaint.Color,
+                StrokeWidth = resources.GetDimension(Resource.Dimension.minute_hand_stroke),
+                AntiAlias = true,
+                StrokeCap = Paint.Cap.Round
+            };
 
             // 分針の縁を準備します
-            minuteHandBackPaint = new Paint();
-            minuteHandBackPaint.Color = hourHandBackPaint.Color;
-            minuteHandBackPaint.StrokeWidth = minuteHandPaint.StrokeWidth + 3;
-            minuteHandBackPaint.AntiAlias = minuteHandPaint.AntiAlias;
-            minuteHandBackPaint.StrokeCap = minuteHandPaint.StrokeCap;
+            minuteHandBackPaint = new Paint
+            {
+                Color = hourHandBackPaint.Color,
+                StrokeWidth = minuteHandPaint.StrokeWidth + 3,
+                AntiAlias = minuteHandPaint.AntiAlias,
+                StrokeCap = minuteHandPaint.StrokeCap
+            };
 
             // 秒針用のPaintグラフィックスオブジェクトを生成します。
-            secondHandPaint = new Paint();
-            secondHandPaint.Color = 
-                WatchfaceUtility.ConvertARGBToColor(
-                    ContextCompat.GetColor(owner, Resource.Color.analog_second_hand));
-            secondHandPaint.StrokeWidth = resources.GetDimension(Resource.Dimension.second_hand_stroke);
-            secondHandPaint.AntiAlias = true;
-            secondHandPaint.StrokeCap = Paint.Cap.Round;
+            secondHandPaint = new Paint
+            {
+                Color =
+                    WatchfaceUtility.ConvertARGBToColor(
+                        ContextCompat.GetColor(owner, Resource.Color.analog_second_hand)),
+                StrokeWidth = resources.GetDimension(Resource.Dimension.second_hand_stroke),
+                AntiAlias = true,
+                StrokeCap = Paint.Cap.Round
+            };
 
             // 秒針の縁を準備します
-            secondHandBackPaint = new Paint();
-            secondHandBackPaint.Color = Color.Black;
-            secondHandBackPaint.StrokeWidth = secondHandPaint.StrokeWidth + 2;
-            secondHandBackPaint.AntiAlias = secondHandPaint.AntiAlias;
-            secondHandBackPaint.StrokeCap = secondHandPaint.StrokeCap;
+            secondHandBackPaint = new Paint
+            {
+                Color = Color.Black,
+                StrokeWidth = secondHandPaint.StrokeWidth + 2,
+                AntiAlias = secondHandPaint.AntiAlias,
+                StrokeCap = secondHandPaint.StrokeCap
+            };
         }
 
-        public void Draw(Canvas canvas, Rect bounds)
-        {
-            // 中心のXY座標を求めます。
-            float centerX = bounds.Width() / 2.0f;
-            float centerY = bounds.Height() / 2.0f;
-
-            if (!IsAmbient)
-            {
-                float hourHandBackLength = centerX - 80;
-                float hourHandBackRotation = ((Calendar.Get(Java.Util.CalendarField.Hour) + (Calendar.Get(Java.Util.CalendarField.Minute) / 60f)) / 6f) * (float)Math.PI;
-                float hourHandBackX = (float)Math.Sin(hourHandBackRotation) * hourHandBackLength;
-                float hourHandBackY = (float)-Math.Cos(hourHandBackRotation) * hourHandBackLength;
-                canvas.DrawLine(centerX, centerY, centerX + hourHandBackX, centerY + hourHandBackY, hourHandBackPaint);
-
-                float minuteHandBackLength = centerX - 40;
-                float minuteHandBackRotation = Calendar.Get(Java.Util.CalendarField.Minute) / 30f * (float)Math.PI;
-                float minuteHandBackX = (float)Math.Sin(minuteHandBackRotation) * minuteHandBackLength;
-                float minuteHandBackY = (float)-Math.Cos(minuteHandBackRotation) * minuteHandBackLength;
-                // 分針を描画します。
-                canvas.DrawLine(centerX, centerY, centerX + minuteHandBackX, centerY + minuteHandBackY, minuteHandBackPaint);
-            }
-
-            // 針の長さを求めます。
-            float hourHandLength = centerX - 80;
-            float minuteHandLength = centerX - 40;
-            float secondHandLength = centerX - 20;
-
-            // 時針の先端のXY座標を求めます。
-            float hourHandRotation = ((Calendar.Get(Java.Util.CalendarField.Hour) + (Calendar.Get(Java.Util.CalendarField.Minute) / 60f)) / 6f) * (float)Math.PI;
-            //float hourHandRotation = ((nowTime.Hour + (nowTime.Minute / 60f)) / 6f) * (float)Math.PI;
-            float hourHandX = (float)Math.Sin(hourHandRotation) * hourHandLength;
-            float hourHandY = (float)-Math.Cos(hourHandRotation) * hourHandLength;
-            // 時針を描画します。
-            canvas.DrawLine(centerX, centerY, centerX + hourHandX, centerY + hourHandY, hourHandPaint);
-
-            // 分針の先端のXY座標を求めます。
-            float minuteHandRotation = Calendar.Get(Java.Util.CalendarField.Minute) / 30f * (float)Math.PI;
-            //float minuteHandRotation = nowTime.Minute / 30f * (float)Math.PI;
-            float minuteHandX = (float)Math.Sin(minuteHandRotation) * minuteHandLength;
-            float minuteHandY = (float)-Math.Cos(minuteHandRotation) * minuteHandLength;
-            // 分針を描画します。
-            canvas.DrawLine(centerX, centerY, centerX + minuteHandX, centerY + minuteHandY, minuteHandPaint);
-
-            // アンビエントモードでないかどうかを判別します。
-            if (!IsAmbient)
-            {
-                float secondHandBackLength = centerX - 20;
-                float secondHandBackRotation = Calendar.Get(Java.Util.CalendarField.Second) / 30f * (float)Math.PI;
-                float secondHandBackX = (float)Math.Sin(secondHandBackRotation) * secondHandBackLength;
-                float secondHandBackY = (float)-Math.Cos(secondHandBackRotation) * secondHandBackLength;
-                // 分針を描画します。
-                canvas.DrawLine(centerX, centerY, centerX + secondHandBackX, centerY + secondHandBackY, secondHandBackPaint);
-
-                // 秒針の先端のXY座標を求めます。
-                float secondHandRotation = Calendar.Get(Java.Util.CalendarField.Second) / 30f * (float)Math.PI;
-                //float secondHandRotation = nowTime.Second / 30f * (float)Math.PI;
-                float secondHandX = (float)Math.Sin(secondHandRotation) * secondHandLength;
-                float secondHandY = (float)-Math.Cos(secondHandRotation) * secondHandLength;
-                // 分針を描画します。
-                canvas.DrawLine(centerX, centerY, centerX + secondHandX, centerY + secondHandY, secondHandPaint);
-            }
-        }
-
-        public void Draw2(Canvas canvas, Rect bounds)
+        public void DrawBorder(Canvas canvas, MotoRect rect)
         {
             // 中心からの距離
             float margin = 20.0f;
 
             // 中心のXY座標を求めます。
-            float centerX = bounds.Width() / 2.0f;
-            float centerY = bounds.Height() / 2.0f;
+            float centerX = rect.Width / 2.0f;
+            float centerY = rect.Height / 2.0f;
 
-            if (!IsAmbient)
-            {
-                // 時針の縁を描画します
-                // X, Y → 先端の座標 / Xc, Yc → 中心側の座標
-                float hourHandBackLength = centerX - 80;
-                float hourHandBackRotation = ((Calendar.Get(Java.Util.CalendarField.Hour) + (Calendar.Get(Java.Util.CalendarField.Minute) / 60f)) / 6f) * (float)Math.PI;
-                float hourHandBackX = (float)Math.Sin(hourHandBackRotation) * hourHandBackLength;
-                float hourHandBackY = (float)-Math.Cos(hourHandBackRotation) * hourHandBackLength;
-                float hourHandBackXc = (float)Math.Sin(hourHandBackRotation) * margin;
-                float hourHandBackYc = (float)-Math.Cos(hourHandBackRotation) * margin;
-                canvas.DrawLine(
-                    centerX + hourHandBackXc, centerY + hourHandBackYc,
-                    centerX + hourHandBackX, centerY + hourHandBackY, hourHandBackPaint);
+            // 時針の縁を描画します
+            // X, Y → 先端の座標 / Xc, Yc → 中心側の座標
+            float hourHandBackLength = centerX - 80;
+            float hourHandBackRotation = ((Calendar.Get(Java.Util.CalendarField.Hour) + (Calendar.Get(Java.Util.CalendarField.Minute) / 60f)) / 6f) * (float)Math.PI;
+            float hourHandBackX = (float)Math.Sin(hourHandBackRotation) * hourHandBackLength;
+            float hourHandBackY = (float)-Math.Cos(hourHandBackRotation) * hourHandBackLength;
+            float hourHandBackXc = (float)Math.Sin(hourHandBackRotation) * margin;
+            float hourHandBackYc = (float)-Math.Cos(hourHandBackRotation) * margin;
+            canvas.DrawLine(
+                centerX + hourHandBackXc, centerY + hourHandBackYc,
+                centerX + hourHandBackX, centerY + hourHandBackY, hourHandBackPaint);
 
-                // 分針の縁を描画します
-                // X, Y → 先端の座標 / Xc, Yc → 中心側の座標
-                float minuteHandBackLength = centerX - 40;
-                float minuteHandBackRotation = Calendar.Get(Java.Util.CalendarField.Minute) / 30f * (float)Math.PI;
-                float minuteHandBackX = (float)Math.Sin(minuteHandBackRotation) * minuteHandBackLength;
-                float minuteHandBackY = (float)-Math.Cos(minuteHandBackRotation) * minuteHandBackLength;
-                float minuteHandBackXc = (float)Math.Sin(minuteHandBackRotation) * margin;
-                float minuteHandBackYc = (float)-Math.Cos(minuteHandBackRotation) * margin;
-                canvas.DrawLine(
-                    centerX + minuteHandBackXc, centerY + minuteHandBackYc,
-                    centerX + minuteHandBackX, centerY + minuteHandBackY, minuteHandBackPaint);
-            }
+            // 分針の縁を描画します
+            // X, Y → 先端の座標 / Xc, Yc → 中心側の座標
+            float minuteHandBackLength = centerX - 40;
+            float minuteHandBackRotation = Calendar.Get(Java.Util.CalendarField.Minute) / 30f * (float)Math.PI;
+            float minuteHandBackX = (float)Math.Sin(minuteHandBackRotation) * minuteHandBackLength;
+            float minuteHandBackY = (float)-Math.Cos(minuteHandBackRotation) * minuteHandBackLength;
+            float minuteHandBackXc = (float)Math.Sin(minuteHandBackRotation) * margin;
+            float minuteHandBackYc = (float)-Math.Cos(minuteHandBackRotation) * margin;
+            canvas.DrawLine(
+                centerX + minuteHandBackXc, centerY + minuteHandBackYc,
+                centerX + minuteHandBackX, centerY + minuteHandBackY, minuteHandBackPaint);
+        }
+
+        public void DrawHands(Canvas canvas, MotoRect rect)
+        {
+            // 中心からの距離
+            float margin = 20.0f;
+
+            // 中心のXY座標を求めます。
+            float centerX = rect.Width / 2.0f;
+            float centerY = rect.Height / 2.0f;
 
             // 針の長さを求めます。
             float hourHandLength = centerX - 80;
@@ -282,23 +238,17 @@ namespace Dx2Watch
             canvas.DrawLine(
                 centerX + minuteHandXc, centerY + minuteHandYc,
                 centerX + minuteHandX, centerY + minuteHandY, minuteHandPaint);
-
-            // アンビエントモードでないかどうかを判別します。
-            if (!IsAmbient)
-            {
-                // 秒針を描画します
-                DrawSec(canvas, bounds);
-            }
         }
 
-        public void DrawSec(Canvas canvas, Rect bounds)
+
+        public void DrawSec(Canvas canvas, MotoRect rect)
         {
             // 中心からの距離
             float margin = 20.0f;
 
             // 中心のXY座標を求めます。
-            float centerX = bounds.Width() / 2.0f;
-            float centerY = bounds.Height() / 2.0f;
+            float centerX = rect.Width / 2.0f;
+            float centerY = rect.Height / 2.0f;
 
             // 針の長さを求めます。
             float secondHandLength = centerX - 20;
@@ -328,21 +278,21 @@ namespace Dx2Watch
 
         public Java.Util.Calendar Calendar { get; set; }
 
-        private bool isAmbient = false;
-        public bool IsAmbient
+        private bool antiAlias = false;
+        public bool AntiAlias
         {
-            get { return isAmbient; }
+            get { return antiAlias; }
             set
             {
-                isAmbient = value;
+                antiAlias = value;
 
-                hourHandPaint.AntiAlias = !isAmbient;
-                minuteHandPaint.AntiAlias = !isAmbient;
-                secondHandPaint.AntiAlias = !isAmbient;
+                hourHandPaint.AntiAlias = !antiAlias;
+                minuteHandPaint.AntiAlias = !antiAlias;
+                secondHandPaint.AntiAlias = !antiAlias;
 
-                hourHandBackPaint.AntiAlias = !isAmbient;
-                minuteHandBackPaint.AntiAlias = !isAmbient;
-                secondHandBackPaint.AntiAlias = !isAmbient;
+                hourHandBackPaint.AntiAlias = !antiAlias;
+                minuteHandBackPaint.AntiAlias = !antiAlias;
+                secondHandBackPaint.AntiAlias = !antiAlias;
             }
         }
     }

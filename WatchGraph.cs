@@ -97,14 +97,15 @@ namespace Dx2Watch
 
         Path path;
         Paint paint;
-        RectF rectF;
+        readonly RectF rectF;
 
         // グラフ色（紫っぽい部分）
         readonly Color COLOR_PURPLE = Color.Argb(255, 101, 31, 156);
         // メンテ時間色（グレー）
         readonly Color COLOR_GRAY = Color.Argb(255, 80, 80, 80);
 
-        System.Globalization.CultureInfo ci;
+        // 時刻表記
+        readonly System.Globalization.CultureInfo ci;
 
         public WatchGraph()
         {

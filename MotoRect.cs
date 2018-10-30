@@ -89,36 +89,83 @@ using Chronoir_net.Chronica.WatchfaceExtension;
 
 namespace Dx2Watch
 {
-    class WatchTime
+    class MotoRect
     {
-        // 文字書き用 Paint
-        Paint paint;
+        //bool isInitialized = false;
 
-        public WatchTime()
+        public MotoRect(Rect r)
+            : this(r.Left, r.Top, r.Right, r.Bottom)
         {
-            paint = new Paint();
-            paint.Color = Color.White;
-            paint.AntiAlias = true;
         }
 
-        public void Draw(Canvas canvas, MotoRect rect)
+        public MotoRect(int left, int top, int right, int bottom)
         {
-            string time = WatchfaceUtility.ConvertToDateTime(Calendar).ToString("HH:mm");
+            Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
 
-            // HH:mm
-
-            paint.TextSize = 50;
-            float width = paint.MeasureText(time);
-            canvas.DrawText(time,
-                (rect.Width - width) / 2, 80, paint);
+            Center = new Point((right - left) / 2, (bottom - top) / 2);
         }
 
-        public Java.Util.Calendar Calendar { get; set; }
-
-        public bool AntiAlias
+        public void SetBounds(Rect bounds)
         {
-            get { return paint.AntiAlias; }
-            set { paint.AntiAlias = value; }
+            if (Left != bounds.Left)
+            {
+                Left = bounds.Left;
+                IsSizeChanged = true;
+            }
+
+            if (Top != bounds.Top)
+            {
+                Top = bounds.Top;
+                IsSizeChanged = true;
+            }
+
+            if (Right != bounds.Right)
+            {
+                Right = bounds.Right;
+                IsSizeChanged = true;
+            }
+
+            if (IsMoto360)
+            {
+                if (Bottom != Right)
+                {
+                    Bottom = Right;
+                    IsSizeChanged = true;
+                }
+            }
+            else
+            {
+                if (Bottom != bounds.Bottom)
+                {
+                    Bottom = bounds.Bottom;
+                    IsSizeChanged = true;
+                }
+            }
+
+            Center.X = Width / 2;
+            Center.Y = Height / 2;
         }
+
+        public Rect ToRect()
+        {
+            return new Rect(Left, Top, Right, Bottom);
+        }
+
+        public int Left { get; set; }
+        public int Top { get; set; }
+        public int Right { get; set; }
+        public int Bottom { get; set; }
+
+        public int Width => Right - Left;
+        public int Height => Bottom - Top;
+
+        public Point Center { get; private set; }
+
+        public bool IsMoto360 { get; set; } = true;
+
+        public bool IsSizeChanged { get; set; }
     }
 }

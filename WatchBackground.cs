@@ -92,46 +92,77 @@ namespace Dx2Watch
 {
     class WatchBackground
     {
-        // 背景用のペイントオブジェクト - Ambient 用
+        private Color backColor;
+        // 背景用のペイントオブジェクト - filter 用
         private Paint backgroundPaint;
 
-    　　// 背景用 Bitmap
-        private Bitmap backgroundFullMoon;
-        private Bitmap backgroundF7N;
-        private Bitmap backgroundF6N;
-        private Bitmap backgroundF5N;
-        private Bitmap backgroundF4N;
-        private Bitmap backgroundF3N;
-        private Bitmap backgroundF2N;
-        private Bitmap backgroundF1N;
-        private Bitmap backgroundNewMoon;
-        private Bitmap backgroundN1F;
-        private Bitmap backgroundN2F;
-        private Bitmap backgroundN3F;
-        private Bitmap backgroundN4F;
-        private Bitmap backgroundN5F;
-        private Bitmap backgroundN6F;
-        private Bitmap backgroundN7F;
-        private Bitmap backgroundDevilSummoner;
-        private Bitmap backgroundDx2;
-        private Bitmap backgroundAmbient;         // Ambient はとりあえず黒で
+        // 背景用 Bitmap
+        #region Bitmap from Resource.Drawable
+
+        readonly Bitmap backgroundFullMoon;
+        readonly Bitmap backgroundF7N;
+        readonly Bitmap backgroundF6N;
+        readonly Bitmap backgroundF5N;
+        readonly Bitmap backgroundF4N;
+        readonly Bitmap backgroundF3N;
+        readonly Bitmap backgroundF2N;
+        readonly Bitmap backgroundF1N;
+        readonly Bitmap backgroundNewMoon;
+        readonly Bitmap backgroundN1F;
+        readonly Bitmap backgroundN2F;
+        readonly Bitmap backgroundN3F;
+        readonly Bitmap backgroundN4F;
+        readonly Bitmap backgroundN5F;
+        readonly Bitmap backgroundN6F;
+        readonly Bitmap backgroundN7F;
+        readonly Bitmap backgroundDevilSummoner;
+        readonly Bitmap backgroundDx2;
+        readonly Bitmap backgroundAmbient;
+
+        #endregion
+
+        #region Bitmap for Scaled
+
+        private Bitmap backgroundScaledFullMoon;
+        private Bitmap backgroundScaledF7N;
+        private Bitmap backgroundScaledF6N;
+        private Bitmap backgroundScaledF5N;
+        private Bitmap backgroundScaledF4N;
+        private Bitmap backgroundScaledF3N;
+        private Bitmap backgroundScaledF2N;
+        private Bitmap backgroundScaledF1N;
+        private Bitmap backgroundScaledNewMoon;
+        private Bitmap backgroundScaledN1F;
+        private Bitmap backgroundScaledN2F;
+        private Bitmap backgroundScaledN3F;
+        private Bitmap backgroundScaledN4F;
+        private Bitmap backgroundScaledN5F;
+        private Bitmap backgroundScaledN6F;
+        private Bitmap backgroundScaledN7F;
+        private Bitmap backgroundScaledDevilSummoner;
+        private Bitmap backgroundScaledDx2;
+        private Bitmap backgroundScaledAmbient;
+
+        #endregion
 
         // Scaled 用 Bitmap
-        private Bitmap backgroundScaledBitmap;
-        private Bitmap backgroundScaledAmbient;   // Ambient はとりあえず黒で
-
-        // 書き換え必須フラグ
-        bool mustRescaled = true;
+        //private Bitmap backgroundScaledBitmap;
+        //private Bitmap backgroundScaledAmbient;
 
         public WatchBackground(CanvasWatchFaceService owner)
         {
-            // 背景用 Paint の作成
-            backgroundPaint = new Paint
-            {
-                // リソースから背景色を読み込みます
-                Color =
+            // 背景色の作成
+            backColor = new Color(
                 WatchfaceUtility.ConvertARGBToColor(
-                    ContextCompat.GetColor(owner, Resource.Color.background))
+                    ContextCompat.GetColor(owner, Resource.Color.background)));
+
+            // 背景用 Paint の作成
+            backgroundPaint = new Paint()
+            {
+                // 背景色を設定
+                Color = backColor,
+                // Scaled された画像をなめらかにする
+                FilterBitmap = true
             };
 
             #region 'Resources.GetDrawable(int)' は旧形式です('deprecated')
@@ -243,202 +274,289 @@ namespace Dx2Watch
             #endregion
         }
 
-        public void Draw(Canvas canvas, Rect bounds)
+        public void Rescale(MotoRect rect)
         {
-            int width = bounds.Width();
-            int height = bounds.Height();
+            backgroundScaledFullMoon =
+                Bitmap.CreateScaledBitmap(
+                    backgroundFullMoon, rect.Width, rect.Height, true);
+            backgroundScaledF7N =
+                Bitmap.CreateScaledBitmap(
+                    backgroundF7N, rect.Width, rect.Height, true);
+            backgroundScaledF6N =
+                Bitmap.CreateScaledBitmap(
+                    backgroundF6N, rect.Width, rect.Height, true);
+            backgroundScaledF5N =
+                Bitmap.CreateScaledBitmap(
+                    backgroundF5N, rect.Width, rect.Height, true);
+            backgroundScaledF4N =
+                Bitmap.CreateScaledBitmap(
+                    backgroundF4N, rect.Width, rect.Height, true);
+            backgroundScaledF3N =
+                Bitmap.CreateScaledBitmap(
+                    backgroundF3N, rect.Width, rect.Height, true);
+            backgroundScaledF2N =
+                Bitmap.CreateScaledBitmap(
+                    backgroundF2N, rect.Width, rect.Height, true);
+            backgroundScaledF1N =
+                Bitmap.CreateScaledBitmap(
+                    backgroundF1N, rect.Width, rect.Height, true);
+            backgroundScaledNewMoon =
+                Bitmap.CreateScaledBitmap(
+                    backgroundNewMoon, rect.Width, rect.Height, true);
+            backgroundScaledN1F =
+                Bitmap.CreateScaledBitmap(
+                    backgroundN1F, rect.Width, rect.Height, true);
+            backgroundScaledN2F =
+                Bitmap.CreateScaledBitmap(
+                    backgroundN2F, rect.Width, rect.Height, true);
+            backgroundScaledN3F =
+                Bitmap.CreateScaledBitmap(
+                    backgroundN3F, rect.Width, rect.Height, true);
+            backgroundScaledN4F =
+                Bitmap.CreateScaledBitmap(
+                    backgroundN4F, rect.Width, rect.Height, true);
+            backgroundScaledN5F =
+                Bitmap.CreateScaledBitmap(
+                    backgroundN5F, rect.Width, rect.Height, true);
+            backgroundScaledN6F =
+                Bitmap.CreateScaledBitmap(
+                    backgroundN6F, rect.Width, rect.Height, true);
+            backgroundScaledN7F =
+                Bitmap.CreateScaledBitmap(
+                    backgroundN7F, rect.Width, rect.Height, true);
+            backgroundScaledDevilSummoner =
+                Bitmap.CreateScaledBitmap(
+                    backgroundDevilSummoner, rect.Width, rect.Height, true);
+            backgroundScaledDx2 =
+                Bitmap.CreateScaledBitmap(
+                    backgroundDx2, rect.Width, rect.Height, true);
+            backgroundScaledAmbient =
+                Bitmap.CreateScaledBitmap(
+                    backgroundAmbient, rect.Width, rect.Height, true);
+        }
 
-            // アンビエントモード
-            if (isInAmbientMode)
+        public void DrawInAmbient(Canvas canvas, MotoRect rect)
+        {
+            canvas.DrawColor(backColor);
+            if (backgroundScaledAmbient == null)
             {
-                // 黒で塗りつぶして終了
-                //canvas.DrawColor(Color.Black);
-
-                // 背景描画
-                if (mustRescaled)
-                {
-                    backgroundScaledAmbient =
-                        Bitmap.CreateScaledBitmap(backgroundScaledAmbient, width, height, true);
-
-                    mustRescaled = false;
-                }
-
-                canvas.DrawBitmap(backgroundScaledAmbient, 0, 0, null);
+                backgroundScaledAmbient =
+                    Bitmap.CreateScaledBitmap(
+                        backgroundAmbient, rect.Width, rect.Height, true);
             }
-            else if (IsListMode)    // ListMode
+            canvas.DrawBitmap(backgroundScaledAmbient, rect.Left, rect.Top, backgroundPaint);
+        }
+
+        public void Draw(Canvas canvas, MotoRect rect)
+        {
+            canvas.DrawColor(backColor);
+
+            if (IsListMode)
             {
-                // 黒で塗りつぶす
-                canvas.DrawColor(Color.Black);
+                // 背景を暗くしたら終わり
+                // WatchGraph が描いてくれる
+                return;
+            }
+
+            if (FaceMode == FaceModes.Logo)
+            {
+                if (backgroundScaledDevilSummoner == null)
+                {
+                    backgroundScaledDevilSummoner =
+                        Bitmap.CreateScaledBitmap(
+                            backgroundDevilSummoner, rect.Width, rect.Height, true);
+                }
+                canvas.DrawBitmap(backgroundScaledDevilSummoner, rect.Left, rect.Top, backgroundPaint);
             }
             else
             {
-                if (mustRescaled)
+                switch (MoonAge)
                 {
-                    if (faceMode == FaceModes.Logo)
-                    {
-                        //backgroundScaledBitmap =
-                        //    Bitmap.CreateScaledBitmap(backgroundDx2, width, height, true);
-                        backgroundScaledBitmap =
-                            Bitmap.CreateScaledBitmap(backgroundDevilSummoner, width, height, true);
-                    }
-                    else
-                    {
-                        switch (MoonAge)
+                    case MoonAges.none:
+                        if (backgroundScaledDx2 == null)
                         {
-                            case MoonAges.none:
-                                //backgroundScaledBitmap =
-                                //    Bitmap.CreateScaledBitmap(backgroundDevilSummoner, width, height, true);
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundDx2, width, height, true);
-                                break;
-                            case MoonAges.Full:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundFullMoon, width, height, true);
-                                break;
-                            case MoonAges.F7N:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundF7N, width, height, true);
-                                break;
-                            case MoonAges.F6N:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundF6N, width, height, true);
-                                break;
-                            case MoonAges.F5N:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundF5N, width, height, true);
-                                break;
-                            case MoonAges.F4N:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundF4N, width, height, true);
-                                break;
-                            case MoonAges.F3N:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundF3N, width, height, true);
-                                break;
-                            case MoonAges.F2N:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundF2N, width, height, true);
-                                break;
-                            case MoonAges.F1N:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundF1N, width, height, true);
-                                break;
-                            case MoonAges.New:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundNewMoon, width, height, true);
-                                break;
-                            case MoonAges.N1F:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundN1F, width, height, true);
-                                break;
-                            case MoonAges.N2F:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundN2F, width, height, true);
-                                break;
-                            case MoonAges.N3F:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundN3F, width, height, true);
-                                break;
-                            case MoonAges.N4F:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundN4F, width, height, true);
-                                break;
-                            case MoonAges.N5F:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundN5F, width, height, true);
-                                break;
-                            case MoonAges.N6F:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundN6F, width, height, true);
-                                break;
-                            case MoonAges.N7F:
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundN7F, width, height, true);
-                                break;
-                            default:
-                                //backgroundScaledBitmap =
-                                //    Bitmap.CreateScaledBitmap(backgroundDevilSummoner, width, height, true);
-                                backgroundScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(backgroundDx2, width, height, true);
-                                break;
+                            backgroundScaledDx2 =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundDx2, rect.Width, rect.Height, true);
                         }
-                    }
-
-                    mustRescaled = false;
+                        canvas.DrawBitmap(backgroundScaledDx2, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.Full:
+                        if (backgroundScaledFullMoon == null)
+                        {
+                            backgroundScaledFullMoon =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundFullMoon, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledFullMoon, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.F7N:
+                        if (backgroundScaledF7N == null)
+                        {
+                            backgroundScaledF7N =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundF7N, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledF7N, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.F6N:
+                        if (backgroundScaledF6N == null)
+                        {
+                            backgroundScaledF6N =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundF6N, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledF6N, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.F5N:
+                        if (backgroundScaledF5N == null)
+                        {
+                            backgroundScaledF5N =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundF5N, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledF5N, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.F4N:
+                        if (backgroundScaledF4N == null)
+                        {
+                            backgroundScaledF4N =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundF4N, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledF4N, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.F3N:
+                        if (backgroundScaledF3N == null)
+                        {
+                            backgroundScaledF3N =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundF3N, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledF3N, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.F2N:
+                        if (backgroundScaledF2N == null)
+                        {
+                            backgroundScaledF2N =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundF2N, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledF2N, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.F1N:
+                        if (backgroundScaledF1N == null)
+                        {
+                            backgroundScaledF1N =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundF1N, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledF1N, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.New:
+                        if (backgroundScaledNewMoon == null)
+                        {
+                            backgroundScaledNewMoon =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundNewMoon, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledNewMoon, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.N1F:
+                        if (backgroundScaledN1F == null)
+                        {
+                            backgroundScaledN1F =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundN1F, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledN1F, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.N2F:
+                        if (backgroundScaledN2F == null)
+                        {
+                            backgroundScaledN2F =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundN2F, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledN2F, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.N3F:
+                        if (backgroundScaledN3F == null)
+                        {
+                            backgroundScaledN3F =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundN3F, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledN3F, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.N4F:
+                        if (backgroundScaledN4F == null)
+                        {
+                            backgroundScaledN4F =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundN4F, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledN4F, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.N5F:
+                        if (backgroundScaledN5F == null)
+                        {
+                            backgroundScaledN5F =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundN5F, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledN5F, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.N6F:
+                        if (backgroundScaledN6F == null)
+                        {
+                            backgroundScaledN6F =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundN6F, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledN6F, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    case MoonAges.N7F:
+                        if (backgroundScaledN7F == null)
+                        {
+                            backgroundScaledN7F =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundN7F, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledN7F, rect.Left, rect.Top, backgroundPaint);
+                        break;
+                    default:
+                        if (backgroundScaledDx2 == null)
+                        {
+                            backgroundScaledDx2 =
+                                Bitmap.CreateScaledBitmap(
+                                    backgroundDx2, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(backgroundScaledDx2, rect.Left, rect.Top, backgroundPaint);
+                        break;
                 }
-
-                if (backgroundScaledBitmap == null
-                    || backgroundScaledBitmap.Width != width
-                    || backgroundScaledBitmap.Height != height)
-                {
-                    backgroundScaledBitmap =
-                        Bitmap.CreateScaledBitmap(backgroundDx2, width, height, true);
-                }
-
-                canvas.DrawBitmap(backgroundScaledBitmap, 0, 0, null);
             }
         }
 
         // 月齢
-        private MoonAges moonAge = MoonAges.none;
-        public MoonAges MoonAge
-        {
-            get { return moonAge; }
-            set
-            {
-                if (moonAge != value)
-                {
-                    mustRescaled = true;
-                }
-                moonAge = value;
-            }
-        }
+        public MoonAges MoonAge { get; set; }
 
         public enum FaceModes { Logo, Moon }
 
         // 画面表示モード（ロゴか月齢か）
-        private FaceModes faceMode = FaceModes.Moon;
-        public FaceModes FaceMode
+        public FaceModes FaceMode { get; set; }
+
+        // LowBit Ambient（白黒 2 値）の場合
+        public bool FilterBitmap
         {
-            get { return faceMode; }
-            set
-            {
-                if (faceMode != value)
-                {
-                    mustRescaled = true;
-                }
-                faceMode = value;
-            }
+            get { return backgroundPaint.FilterBitmap; }
+            set { backgroundPaint.FilterBitmap = value; }
         }
 
-        // アンビエントモードの判定
-        private bool isInAmbientMode = false;
-        public bool IsInAmbientMode
-        {
-            get { return isInAmbientMode; }
-            set
-            {
-                if (isInAmbientMode != value)
-                {
-                    mustRescaled = true;
-                }
-                isInAmbientMode = value;
-            }
-        }
+        // アンビエントモードで動作しているかの判定
+        //public bool IsInAmbient { get; set; }
 
         // リスト表示の判定
-        private bool isListMode = false;
-        public bool IsListMode
-        {
-            get { return isListMode; }
-            set
-            {
-                if (isListMode != value)
-                {
-                    mustRescaled = true;
-                }
-                isListMode = value;
-            }
-        }
+        public bool IsListMode { get; set; }
     }
 }

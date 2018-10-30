@@ -79,6 +79,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MyWatchFace.cs" />
+    <Compile Include="MotoRect.cs" />
     <Compile Include="WatchBackground.cs" />
     <Compile Include="WatchDate.cs" />
     <Compile Include="WatchGraph.cs" />
