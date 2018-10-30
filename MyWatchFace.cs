@@ -80,10 +80,10 @@ using Android.Views;
 using Android.App;
 // WallpaperServiceクラスで使用します。
 using Android.Service.Wallpaper;
-#if DEBUG
-// ログ出力で使用します（デバッグビルドのみ有効）。
-using Android.Util;
-#endif
+//#if DEBUG
+//// ログ出力で使用します（デバッグビルドのみ有効）。
+//using Android.Util;
+//#endif
 
 using Chronoir_net.Chronica.WatchfaceExtension;
 
@@ -112,12 +112,12 @@ namespace Dx2Watch
     public class MyWatchFaceService : CanvasWatchFaceService
     {
 
-#if DEBUG
-		/// <summary>
-		///		ログ出力用のタグを表します。
-		/// </summary>
-		private const string logTag = nameof( MyWatchFaceService );
-#endif
+//#if DEBUG
+//		/// <summary>
+//		///		ログ出力用のタグを表します。
+//		/// </summary>
+//		private const string logTag = nameof( MyWatchFaceService );
+//#endif
 
         /// <summary>
         /// 	インタラクティブモードにおける更新間隔（ミリ秒単位）を表します。
@@ -332,11 +332,11 @@ namespace Dx2Watch
                 updateTimeHandler = new Handler(
                     message =>
                     {
-#if DEBUG
-						if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
-							Log.Info( logTag, $"Updating timer: Message = {message.What}" );
-						}
-#endif
+//#if DEBUG
+//						if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
+//							Log.Info( logTag, $"Updating timer: Message = {message.What}" );
+//						}
+//#endif
 
                         // Whatプロパティでメッセージを判別します。
                         switch (message.What)
@@ -526,11 +526,11 @@ namespace Dx2Watch
             {
                 base.OnApplyWindowInsets(insets);
 
-#if DEBUG
-				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
-					Log.Info( logTag, $"{nameof( OnApplyWindowInsets )}: Round = {insets.IsRound}" );
-				}
-#endif
+//#if DEBUG
+//				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
+//					Log.Info( logTag, $"{nameof( OnApplyWindowInsets )}: Round = {insets.IsRound}" );
+//				}
+//#endif
 
                 // TODO: ウィンドウの形状によって設定する処理を入れます。
                 // Android Wearが丸形かどうかを判別します。
@@ -550,12 +550,12 @@ namespace Dx2Watch
                 // Burn-in-protectionが必要かどうかの値を取得します。
                 isReqiredBurnInProtection = properties.GetBoolean(PropertyBurnInProtection, false);
 
-#if DEBUG
-				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
-					Log.Info( logTag, $"{nameof( OnPropertiesChanged )}: Low-bit ambient = {isRequiredLowBitAmbient}" );
-					Log.Info( logTag, $"{nameof( OnPropertiesChanged )}: Burn-in-protection = {isReqiredBurnInProtection}" );
-				}
-#endif
+//#if DEBUG
+//				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
+//					Log.Info( logTag, $"{nameof( OnPropertiesChanged )}: Low-bit ambient = {isRequiredLowBitAmbient}" );
+//					Log.Info( logTag, $"{nameof( OnPropertiesChanged )}: Burn-in-protection = {isReqiredBurnInProtection}" );
+//				}
+//#endif
             }
 
             /// <summary>
@@ -569,11 +569,11 @@ namespace Dx2Watch
                 // ベースクラスのOnTimeTickメソッドを実行します。
                 base.OnTimeTick();
 
-#if DEBUG
-				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
-					Log.Info( logTag, $"OnTimeTick" );
-				}
-#endif
+//#if DEBUG
+//				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
+//					Log.Info( logTag, $"OnTimeTick" );
+//				}
+//#endif
 
                 // ウォッチフェイスを再描画します。
                 Invalidate();
@@ -591,11 +591,11 @@ namespace Dx2Watch
                 // アンビエントモードが変更されたかどうかを判別します。
                 if (isAmbient != inAmbientMode)
                 {
-#if DEBUG
-					if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
-						Log.Info( logTag, $"{nameof( OnAmbientModeChanged )}: Ambient-mode = {isAmbient} -> {inAmbientMode}" );
-					}
-#endif
+//#if DEBUG
+//					if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
+//						Log.Info( logTag, $"{nameof( OnAmbientModeChanged )}: Ambient-mode = {isAmbient} -> {inAmbientMode}" );
+//					}
+//#endif
 
                     // 現在のアンビエントモードをセットします。
                     isAmbient = inAmbientMode;
@@ -630,11 +630,11 @@ namespace Dx2Watch
                 // ミュートモードが変更されたかどうか判別します。
                 if (isMute != inMuteMode)
                 {
-#if DEBUG
-					if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
-						Log.Info( logTag, $"{nameof( OnInterruptionFilterChanged )}: Mute-mode = {isMute} -> {inMuteMode}" );
-					}
-#endif
+//#if DEBUG
+//					if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
+//						Log.Info( logTag, $"{nameof( OnInterruptionFilterChanged )}: Mute-mode = {isMute} -> {inMuteMode}" );
+//					}
+//#endif
 
                     isMute = inMuteMode;
                     // TODO : 通知状態がOFFの時の処理を入れます。
@@ -657,11 +657,11 @@ namespace Dx2Watch
             ///	</remarks>
             public override void OnTapCommand(int tapType, int x, int y, long eventTime)
             {
-#if DEBUG
-				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
-					Log.Info( logTag, $"{nameof( OnTapCommand )}: Type = {tapType}, ( x, y ) = ( {x}, {y} ), Event time = {eventTime}" );
-				}
-#endif
+//#if DEBUG
+//				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
+//					Log.Info( logTag, $"{nameof( OnTapCommand )}: Type = {tapType}, ( x, y ) = ( {x}, {y} ), Event time = {eventTime}" );
+//				}
+//#endif
 
                 //var resources = owner.Resources;
 
@@ -733,11 +733,11 @@ namespace Dx2Watch
                 // DateTime ( C# )
                 //nowTime = DateTime.Now;
 
-#if DEBUG
-				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
-					Log.Info( logTag, $"{nameof( OnDraw )}: Now time = {WatchfaceUtility.ConvertToDateTime( nowTime ):yyyy/MM/dd HH:mm:ss K}" );
-				}
-#endif
+//#if DEBUG
+//				if( Log.IsLoggable( logTag, LogPriority.Info ) ) {
+//					Log.Info( logTag, $"{nameof( OnDraw )}: Now time = {WatchfaceUtility.ConvertToDateTime( nowTime ):yyyy/MM/dd HH:mm:ss K}" );
+//				}
+//#endif
 
                 // OnTapCommand & 画像の Scaled 用に画面サイズを取得
                 motoRect.SetBounds(bounds);
@@ -851,25 +851,20 @@ namespace Dx2Watch
                     }
                 }
 
-                #region メッセージ表示
+                #region バイブレーション
 
                 if (moon.IsBefore5min)
                 {
                     Xamarin.Essentials.Platform.Vibrator.Vibrate(300);
-                    //watchNotify.Show(Messages.Before5min, 30000);
                 }
                 else if (moon.IsBefore1min)
                 {
                     Xamarin.Essentials.Platform.Vibrator.Vibrate(500);
-                    //watchNotify.Show(Messages.Before1min, 30000);
                 }
                 else if (moon.IsFullmoonEnded)
                 {
                     Xamarin.Essentials.Platform.Vibrator.Vibrate(100);
-                    //watchNotify.Show(Messages.Ended, 5000);
                 }
-
-                //watchNotify.Draw(canvas, bounds);
 
                 #endregion
             }

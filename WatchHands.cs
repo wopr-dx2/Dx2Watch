@@ -80,10 +80,10 @@ using Android.Views;
 using Android.App;
 // WallpaperServiceクラスで使用します。
 using Android.Service.Wallpaper;
-#if DEBUG
-// ログ出力で使用します（デバッグビルドのみ有効）。
-using Android.Util;
-#endif
+//#if DEBUG
+//// ログ出力で使用します（デバッグビルドのみ有効）。
+//using Android.Util;
+//#endif
 
 using Chronoir_net.Chronica.WatchfaceExtension;
 
