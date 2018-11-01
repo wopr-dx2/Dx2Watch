@@ -95,16 +95,12 @@ namespace Dx2Watch
 
         const string MSG_ONE = "1 min later";
         const string MSG_FIVE = "5 min later";
-        const string MSG_CLOSED = "Closed...";
-
-        Handler handler;
-        Action action;
+        const string MSG_ENDED = "Ended...";
 
         public MessageText()
         {
             Message = Messages.Before5min;
-            hasPost = false;
-            visible = false;
+            Visible = false;
 
             paint = new Paint
             {
@@ -112,47 +108,14 @@ namespace Dx2Watch
                 Color = Color.White,
                 TextSize = 18
             };
-
-            handler = new Handler();
-            action = () => { visible = false; };
         }
 
-        //void callback()
-        //{
-        //    visible = false;
-        //}
-
-        public void Show(long sec = 3000)
+        public void Draw(Canvas canvas, MotoRect rect)
         {
-            seconds = sec;
-
-            Cancel();
-
-            if (!visible)
-            {
-                visible = true;
-                hasPost = true;
-            }
-        }
-
-        public void Cancel()
-        {
-            if (visible)
-            {
-                handler.RemoveCallbacksAndMessages(null);
-                visible = false;
-            }
-        }
-
-        public void Draw(Canvas canvas, Rect bounds)
-        {
-            if (!visible)
+            if (!Visible)
             {
                 return;
             }
-
-            int width = bounds.Width();
-            int height = bounds.Height();
 
             string text = "";
             switch (Message)
@@ -164,7 +127,7 @@ namespace Dx2Watch
                     text = MSG_FIVE;
                     break;
                 case Messages.Ended:
-                    text = MSG_CLOSED;
+                    text = MSG_ENDED;
                     break;
                 default:
                     break;
@@ -172,23 +135,19 @@ namespace Dx2Watch
 
             if (!string.IsNullOrWhiteSpace(text))
             {
-                float textWidth = paint.MeasureText(text);
-                canvas.DrawText(text, (width - textWidth) / 2.0f, 270, paint);
-
-                if (hasPost)
-                {
-                    handler.PostDelayed(action, seconds);
-                    hasPost = false;
-                }
+                float width = paint.MeasureText(text);
+                canvas.DrawText(text, (rect.Width - width) / 2.0f, 270, paint);
             }
         }
 
         public Messages Message { get; set; }
 
-        private long seconds;
+        public bool AntiAlias
+        {
+            get { return paint.AntiAlias; }
+            set { paint.AntiAlias = value; }
+        }
 
-        private bool hasPost;
-
-        bool visible;
+        public bool Visible { get; set; }
     }
 }

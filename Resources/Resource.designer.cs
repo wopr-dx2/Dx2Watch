@@ -553,6 +553,9 @@ namespace Dx2Watch
 			// aapt resource value: 0x7f020025
 			public const int preview_circular = 2130837541;
 			
+			// aapt resource value: 0x7f020026
+			public const int TETREGRAMMATON = 2130837542;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

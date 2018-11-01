@@ -286,13 +286,13 @@ namespace Dx2Watch
             {
                 antiAlias = value;
 
-                hourHandPaint.AntiAlias = !antiAlias;
-                minuteHandPaint.AntiAlias = !antiAlias;
-                secondHandPaint.AntiAlias = !antiAlias;
+                hourHandPaint.AntiAlias = antiAlias;
+                minuteHandPaint.AntiAlias = antiAlias;
+                secondHandPaint.AntiAlias = antiAlias;
 
-                hourHandBackPaint.AntiAlias = !antiAlias;
-                minuteHandBackPaint.AntiAlias = !antiAlias;
-                secondHandBackPaint.AntiAlias = !antiAlias;
+                hourHandBackPaint.AntiAlias = antiAlias;
+                minuteHandBackPaint.AntiAlias = antiAlias;
+                secondHandBackPaint.AntiAlias = antiAlias;
             }
         }
     }

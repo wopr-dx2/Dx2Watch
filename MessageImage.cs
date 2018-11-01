@@ -99,19 +99,26 @@ namespace Dx2Watch
         Paint paint;
 
         // キャラクタ Bitmap
-        private Bitmap bmpPlayer;
-        private Bitmap bmpTemplarDragon;
-        private Bitmap bmpEileen;
-        private Bitmap bmpShionyan;
+        private Bitmap charPlayer;
+        private Bitmap charTemplarDragon;
+        private Bitmap charEileen;
+        private Bitmap charShionyan;
 
         //  吹き出し Bitmap
-        private Bitmap bmpBefore5min;
-        private Bitmap bmpBefore1min;
-        private Bitmap bmpEnded;
+        private Bitmap balloonBefore5min;
+        private Bitmap balloonBefore1min;
+        private Bitmap balloonEnded;
 
         // キャラクタ用、吹き出し用 ScaledBitmap
-        private Bitmap charScaledBitmap;
-        private Bitmap balloonScaledBitmap;
+        //private Bitmap charScaledBitmap;
+        private Bitmap charScaledPlayer;
+        private Bitmap charScaledTemplarDragon;
+        private Bitmap charScaledEileen;
+        private Bitmap charScaledShionyan;
+        //private Bitmap balloonScaledBitmap;
+        private Bitmap balloonScaledBefore5min;
+        private Bitmap balloonScaledBefore1min;
+        private Bitmap balloonScaledEnded;
 
         // 遅延実行
         Handler handler;
@@ -120,27 +127,27 @@ namespace Dx2Watch
         // 表示秒数の保管（Show で設定して Draw で使用する）
         long seconds;
         // true: PostDelayed の実行
-        bool hasPost;
-        // 表示状態
-        bool visible;        
-        bool mustCharRescaled;      // Rescale をするか
-        bool mustBalloonRescaled;   // 　〃
+        //bool hasPost;
+        //bool mustCharRescaled;      // Rescale をするか
+        //bool mustBalloonRescaled;   // 　〃
 
         public MessageImage(CanvasWatchFaceService owner)
         {
-            mustCharRescaled = true;
-            mustBalloonRescaled = true;
+            //mustCharRescaled = true;
+            //mustBalloonRescaled = true;
 
             Character = Characters.none;
-            Balloon = Messages.none;
+            Message = Messages.none;
 
-            hasPost = false;
-            visible = false;
+            //hasPost = false;
+            Visible = false;
 
             paint = new Paint
             {
-                AntiAlias = true
+                FilterBitmap = true
             };
+
+            #region Resource から Bitmap を読み込み、Rescale 前の状態で変数にセット
 
             //var drawablePlayer = owner.Resources.GetDrawable(Resource.Drawable.CharPlayer);
             //var drawableTemplarDragon = owner.Resources.GetDrawable(Resource.Drawable.CharTemplarDragon);
@@ -154,16 +161,16 @@ namespace Dx2Watch
             //bmpShionyan = (owner.Resources.GetDrawable(Resource.Drawable.CharShionyan) as BitmapDrawable).Bitmap;
 
             // Resource から Bitmap を読み込み、Rescale 前の状態で変数にセット
-            bmpPlayer = (
+            charPlayer = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.CharPlayer, null)
                 as BitmapDrawable).Bitmap;
-            bmpTemplarDragon = (
+            charTemplarDragon = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.CharTemplarDragon, null)
                 as BitmapDrawable).Bitmap;
-            bmpEileen = (
+            charEileen = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.CharEileen, null)
                 as BitmapDrawable).Bitmap;
-            bmpShionyan = (
+            charShionyan = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.CharShionyan, null)
                 as BitmapDrawable).Bitmap;
 
@@ -177,19 +184,50 @@ namespace Dx2Watch
             //bmpEnded = (owner.Resources.GetDrawable(Resource.Drawable.BalloonEnded) as BitmapDrawable).Bitmap;
 
             // Resource から Bitmap を読み込み、Rescale 前の状態で変数にセット
-            bmpBefore5min = (
+            balloonBefore5min = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.BalloonBefore5min, null)
                 as BitmapDrawable).Bitmap;
-            bmpBefore1min = (
+            balloonBefore1min = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.BalloonBefore1min, null)
                 as BitmapDrawable).Bitmap;
-            bmpEnded = (
+            balloonEnded = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.BalloonEnded, null)
                 as BitmapDrawable).Bitmap;
 
+            #endregion
+
             // 遅延実行
             handler = new Handler();
-            action = () => { visible = false; };
+            action = () => { Visible = false; };
+        }
+
+        /// <summary>
+        /// 画像のリスケール
+        /// </summary>
+        /// <param name="rect">リスケールするサイズ</param>
+        public void Rescale(MotoRect rect)
+        {
+            charScaledPlayer =
+                Bitmap.CreateScaledBitmap(
+                    charPlayer, rect.Width, rect.Height, true);
+            charScaledTemplarDragon =
+                Bitmap.CreateScaledBitmap(
+                    charTemplarDragon, rect.Width, rect.Height, true);
+            charScaledEileen =
+                Bitmap.CreateScaledBitmap(
+                    charEileen, rect.Width, rect.Height, true);
+            charScaledShionyan =
+                Bitmap.CreateScaledBitmap(
+                    charShionyan, rect.Width, rect.Height, true);
+            balloonScaledBefore5min =
+                Bitmap.CreateScaledBitmap(
+                    balloonBefore5min, rect.Width, rect.Height, true);
+            balloonScaledBefore1min =
+                Bitmap.CreateScaledBitmap(
+                    balloonBefore1min, rect.Width, rect.Height, true);
+            balloonScaledEnded =
+                Bitmap.CreateScaledBitmap(
+                    balloonEnded, rect.Width, rect.Height, true);
         }
 
         /// <summary>
@@ -201,24 +239,22 @@ namespace Dx2Watch
             seconds = sec;
 
             // 表示済みの場合も考えて、一旦キャンセルしておく
-            Cancel();
+            cancel();
 
-            visible = true;
-            hasPost = true;
-            mustCharRescaled = true;
-            mustBalloonRescaled = true;
+            Visible = true;
+            handler.PostDelayed(action, seconds);
         }
 
         /// <summary>
         /// 表示のキャンセル
         /// 表示中の場合は handler.RemoveCallbacksAndMessages を実行
         /// </summary>
-        public void Cancel()
+        void cancel()
         {
-            if (visible)
+            if (Visible)
             {
                 handler.RemoveCallbacksAndMessages(null);
-                visible = false;
+                Visible = false;
             }
         }
 
@@ -252,7 +288,7 @@ namespace Dx2Watch
                     break;
             }
 
-            Balloon = Messages.none;
+            Message = Messages.none;
 
             Show(sec);
         }
@@ -261,93 +297,111 @@ namespace Dx2Watch
         /// 描画（基本は AnalogWatchFaceEngine.OnDraw から呼ぶ）
         /// </summary>
         /// <param name="canvas">OnDraw の canvas オブジェクト</param>
-        /// <param name="bounds">OnDraw の bounds オブジェクト</param>
-        public void Draw(Canvas canvas, Rect bounds)
+        /// <param name="rect">OnDraw の bounds オブジェクトから変換された MotoRect オブジェクト</param>
+        public void Draw(Canvas canvas, MotoRect rect)
         {
-            // 非表示状態の場合（Text モードの場合）は終了
-            if (!visible)
+            // 非表示状態の場合は終了
+            if (!Visible)
             {
                 return;
             }
 
-            // キャラクタが設定されていない場合はしゅう
+            // キャラクタが設定されていない場合（Text モード）は終了
+            // 呼び出し元で握り潰してるはずやけど、もれたら嫌なんで
             if (Character == Characters.none)
             {
                 return;
             }
 
-            int width = bounds.Width();
-            int height = bounds.Height();
-
-
-            if (Character != Characters.none)
+            switch (Character)
             {
-                if (mustCharRescaled)
-                {
-                    switch (Character)
+                case Characters.Player:
+                    if (charScaledPlayer == null)
                     {
-                        case Characters.Player:
-                            charScaledBitmap =
-                                Bitmap.CreateScaledBitmap(bmpPlayer, width, height, true);
-                            break;
-                        case Characters.TemplarDragon:
-                            charScaledBitmap =
-                                Bitmap.CreateScaledBitmap(bmpTemplarDragon, width, height, true);
-                            break;
-                        case Characters.Eileen:
-                            charScaledBitmap =
-                                Bitmap.CreateScaledBitmap(bmpEileen, width, height, true);
-                            break;
-                        case Characters.Shionyan:
-                            charScaledBitmap =
-                                Bitmap.CreateScaledBitmap(bmpShionyan, width, height, true);
-                            break;
-                        default:
-                            break;
+                        charScaledPlayer =
+                            Bitmap.CreateScaledBitmap(
+                                charPlayer, rect.Width, rect.Height, true);
                     }
-
-                    mustCharRescaled = false;
-                }
-
-                canvas.DrawBitmap(charScaledBitmap, 0, 0, paint);
-
-                if (Balloon != Messages.none)   // Character == none で Balloon != none は無い
-                {
-                    if (mustBalloonRescaled)
+                    canvas.DrawBitmap(charScaledPlayer, rect.Left, rect.Top, paint);
+                    break;
+                case Characters.TemplarDragon:
+                    if (charScaledTemplarDragon == null)
                     {
-                        switch (Balloon)
+                        charScaledTemplarDragon =
+                            Bitmap.CreateScaledBitmap(
+                                charTemplarDragon, rect.Width, rect.Height, true);
+                    }
+                    canvas.DrawBitmap(charScaledTemplarDragon, rect.Left, rect.Top, paint);
+                    break;
+                case Characters.Eileen:
+                    if (charScaledEileen == null)
+                    {
+                        charScaledEileen =
+                            Bitmap.CreateScaledBitmap(
+                                charEileen, rect.Width, rect.Height, true);
+                    }
+                    canvas.DrawBitmap(charScaledEileen, rect.Left, rect.Top, paint);
+                    break;
+                case Characters.Shionyan:
+                    if (charScaledShionyan == null)
+                    {
+                        charScaledShionyan =
+                            Bitmap.CreateScaledBitmap(
+                                charShionyan, rect.Width, rect.Height, true);
+                    }
+                    canvas.DrawBitmap(charScaledShionyan, rect.Left, rect.Top, paint);
+                    break;
+                default:
+                    break;
+            }
+
+            if (Message != Messages.none)
+            {
+                switch (Message)
+                {
+                    case Messages.Before5min:
+                        if (balloonScaledBefore5min == null)
                         {
-                            case Messages.Before5min:
-                                balloonScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(bmpBefore5min, width, height, true);
-                                break;
-                            case Messages.Before1min:
-                                balloonScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(bmpBefore1min, width, height, true);
-                                break;
-                            case Messages.Ended:
-                                balloonScaledBitmap =
-                                    Bitmap.CreateScaledBitmap(bmpEnded, width, height, true);
-                                break;
-                            default:
-                                break;
+                            balloonScaledBefore5min =
+                                Bitmap.CreateScaledBitmap(
+                                    balloonBefore5min, rect.Width, rect.Height, true);
                         }
-
-                        mustBalloonRescaled = false;
-                    }
-
-                    canvas.DrawBitmap(balloonScaledBitmap, 0, 0, paint);
-                }
-
-                if (hasPost)
-                {
-                    handler.PostDelayed(action, seconds);
-                    hasPost = false;
+                        canvas.DrawBitmap(balloonScaledBefore5min, rect.Left, rect.Top, paint);
+                        break;
+                    case Messages.Before1min:
+                        if (balloonScaledBefore1min == null)
+                        {
+                            balloonScaledBefore1min =
+                                Bitmap.CreateScaledBitmap(
+                                    balloonBefore1min, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(balloonScaledBefore1min, rect.Left, rect.Top, paint);
+                        break;
+                    case Messages.Ended:
+                        if (balloonScaledEnded == null)
+                        {
+                            balloonScaledEnded =
+                                Bitmap.CreateScaledBitmap(
+                                    balloonEnded, rect.Width, rect.Height, true);
+                        }
+                        canvas.DrawBitmap(balloonScaledEnded, rect.Left, rect.Top, paint);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
 
         public Characters Character { get; set; }
-        public Messages Balloon { get; set; }
+        public Messages Message { get; set; }
+
+        public bool FilterBitmap
+        {
+            get { return paint.FilterBitmap; }
+            set { paint.FilterBitmap = value; }
+        }
+
+        // 表示状態
+        public bool Visible { get; set; }
     }
 }

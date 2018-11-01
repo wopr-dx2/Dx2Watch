@@ -96,9 +96,11 @@ namespace Dx2Watch
 
         public WatchTime()
         {
-            paint = new Paint();
-            paint.Color = Color.White;
-            paint.AntiAlias = true;
+            paint = new Paint
+            {
+                Color = Color.White,
+                AntiAlias = true
+            };
         }
 
         public void Draw(Canvas canvas, MotoRect rect)

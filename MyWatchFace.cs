@@ -500,7 +500,7 @@ namespace Dx2Watch
                     WatchfaceUtility.ConvertToDateTime(nowTime));
                 // メッセージ
                 watchNotify = new WatchNotify(owner);
-                //messageText = new MessageText();
+                watchNotify.Rescale(motoRect);
             }
 
             /// <summary>
@@ -608,6 +608,7 @@ namespace Dx2Watch
                         watchBackground.FilterBitmap = !isAmbient;
                         watchHands.AntiAlias = !isAmbient;
                         watchTime.AntiAlias = !isAmbient;
+                        watchNotify.AntiAlias = !isAmbient;
                     }
                     // ウォッチフェイスを再描画します。
                     Invalidate();
@@ -745,6 +746,7 @@ namespace Dx2Watch
                 if (motoRect.IsSizeChanged)
                 {
                     watchBackground.Rescale(motoRect);
+                    watchNotify.Rescale(motoRect);
                 }
 
                 // 月齢計算
@@ -764,15 +766,17 @@ namespace Dx2Watch
                 {
                     // アンビエントモードの時は、黒色で塗りつぶします。
                     //canvas.DrawColor(Color.Black);
-                    watchBackground.DrawInAmbient(canvas, motoRect);
+                    //watchBackground.DrawInAmbient(canvas, motoRect);
 
                     if (watchBackground.IsListMode)
                     {
+                        watchBackground.DrawTetregrammaton(canvas, motoRect);
                         // リストモードの場合は上部に時間を表示
                         //watchTime.Draw(canvas, motoRect);
                     }
                     else
                     {
+                        watchBackground.DrawInAmbient(canvas, motoRect);
                         // 時針、分針の線だけ表示する
                         watchHands.DrawHands(canvas, motoRect);
                     }
@@ -789,7 +793,7 @@ namespace Dx2Watch
 
                     watchGraph.LastFullMoon = moon.LastFullMoon;
                     watchGraph.MoonAge = moon.Age;
-                    watchGraph.Draw(canvas, bounds);
+                    watchGraph.Draw(canvas, motoRect.ToRect());
 
                     #endregion
 
@@ -813,23 +817,24 @@ namespace Dx2Watch
 
                     #region メッセージ表示
 
-                    if (moon.IsBefore5min)
-                    {
-                        //Xamarin.Essentials.Platform.Vibrator.Vibrate(300);
-                        watchNotify.Show(Messages.Before5min, 30000);
-                    }
-                    else if (moon.IsBefore1min)
-                    {
-                        //Xamarin.Essentials.Platform.Vibrator.Vibrate(500);
-                        watchNotify.Show(Messages.Before1min, 30000);
-                    }
-                    else if (moon.IsFullmoonEnded)
-                    {
-                        //Xamarin.Essentials.Platform.Vibrator.Vibrate(100);
-                        watchNotify.Show(Messages.Ended, 5000);
-                    }
+                    //if (moon.IsBefore5min)
+                    //{
+                    //    //Xamarin.Essentials.Platform.Vibrator.Vibrate(300);
+                    //    watchNotify.Show(Messages.Before5min, 30000);
+                    //}
+                    //else if (moon.IsBefore1min)
+                    //{
+                    //    //Xamarin.Essentials.Platform.Vibrator.Vibrate(500);
+                    //    watchNotify.Show(Messages.Before1min, 30000);
+                    //}
+                    //else if (moon.IsFullmoonEnded)
+                    //{
+                    //    //Xamarin.Essentials.Platform.Vibrator.Vibrate(100);
+                    //    watchNotify.Show(Messages.Ended, 5000);
+                    //}
 
-                    watchNotify.Draw(canvas, bounds);
+                    // メッセージ描画
+                    watchNotify.Draw(canvas, motoRect);
 
                     #endregion
 
@@ -850,6 +855,30 @@ namespace Dx2Watch
                         watchHands.DrawSec(canvas, motoRect);
                     }
                 }
+
+                #region メッセージ
+
+                if (moon.During5minMessage)
+                {
+                    watchNotify.Message = Messages.Before5min;
+                    watchNotify.Visible = true;
+                }
+                else if (moon.During1minMessage)
+                {
+                    watchNotify.Message = Messages.Before1min;
+                    watchNotify.Visible = true;
+                }
+                else if (moon.DuringEndedMessage)
+                {
+                    watchNotify.Message = Messages.Ended;
+                    watchNotify.Visible = true;
+                }
+                else if (!watchNotify.IsCharSelecting)
+                {
+                    watchNotify.Visible = false;
+                }
+
+                #endregion
 
                 #region バイブレーション
 

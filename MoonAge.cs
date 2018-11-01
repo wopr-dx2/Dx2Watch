@@ -98,23 +98,13 @@ namespace Dx2Watch
         const int MESSAGE_MINUTES = -5;     // 5 分前
         const int SNOOZE_MINUTES = -1;      // 1 分前
 
-        private DateTime now;
-        public DateTime Now
-        {
-            get { return now; }
-            set
-            {
-                // システムで時刻合わせをすると盤面とかメッセージのタイミングが狂う
-                // プログラム側では秒単位で変化してるはずなので
-                // 1 分以上変化がなかったら初期化する
-                if (Math.Abs(now.Subtract(value).TotalMinutes) > 1)
-                {
-                    Initialize(value);
-                }
-                now = value;
-                Calc();
-            }
-        }
+        private DateTime lastMessage;
+        private DateTime lastSnooze;
+        private DateTime lastEnded;
+
+        const int DURING_5MIN_SECONDS = 30;
+        const int DURING_1MIN_SECONDS = 30;
+        const int DURING_ENDED_SECONDS = 10;
 
         public void Initialize(DateTime dateTime)
         {
@@ -137,10 +127,8 @@ namespace Dx2Watch
             lastEnded = LastFullMoon.AddMinutes(TEN_MINUTES);
         }
 
-        void Calc()
+        void CalcMoon()
         {
-            string fmt = "yyyyMMddHHmm";
-
             // 最終満月 + 118 分を越えたら 1 周したことになる
             if (LastFullMoon.AddMinutes(INTERVAL_MINUTES) <= Now)
             {
@@ -227,17 +215,22 @@ namespace Dx2Watch
             }
 
             #endregion
+        }
+
+        void CalcMessage()
+        {
+            string hhmm = "yyyyMMddHHmm";
 
             // 5 分前及び 1 分前の判定
 
-            string before5min =
+            DateTime before5min =
                 LastFullMoon
                     .AddMinutes(INTERVAL_MINUTES)
-                    .AddMinutes(-5).ToString(fmt);
+                    .AddMinutes(-5);
 
-            if (Now.ToString(fmt) == before5min)
+            if (Now.ToString(hhmm) == before5min.ToString(hhmm))
             {
-                if (lastMessage.ToString(fmt) != before5min)
+                if (lastMessage.ToString(hhmm) != before5min.ToString(hhmm))
                 {
                     lastMessage = Now;
                     IsBefore5min = true;
@@ -246,20 +239,30 @@ namespace Dx2Watch
                 {
                     IsBefore5min = false;
                 }
+
+                if (Now < before5min.AddSeconds(DURING_5MIN_SECONDS))
+                {
+                    During5minMessage = true;
+                }
+                else
+                {
+                    During5minMessage = false;
+                }
             }
             else
             {
                 IsBefore5min = false;
+                During5minMessage = false;
             }
 
-            string before1min =
+            DateTime before1min =
                 LastFullMoon
                     .AddMinutes(INTERVAL_MINUTES)
-                    .AddMinutes(-1).ToString(fmt);
+                    .AddMinutes(-1);
 
-            if (Now.ToString(fmt) == before1min)
+            if (Now.ToString(hhmm) == before1min.ToString(hhmm))
             {
-                if (lastSnooze.ToString(fmt) != before1min)
+                if (lastSnooze.ToString(hhmm) != before1min.ToString(hhmm))
                 {
                     lastSnooze = Now;
                     IsBefore1min = true;
@@ -268,21 +271,31 @@ namespace Dx2Watch
                 {
                     IsBefore1min = false;
                 }
+
+                if (Now < before1min.AddSeconds(DURING_1MIN_SECONDS))
+                {
+                    During1minMessage = true;
+                }
+                else
+                {
+                    During1minMessage = false;
+                }
             }
             else
             {
                 IsBefore1min = false;
+                During1minMessage = false;
             }
 
             // 終了の判定
 
-            string ended =
+            DateTime ended =
                 LastFullMoon
-                    .AddMinutes(TEN_MINUTES).ToString(fmt);
+                    .AddMinutes(TEN_MINUTES);
 
-            if (Now.ToString(fmt) == ended)
+            if (Now.ToString(hhmm) == ended.ToString(hhmm))
             {
-                if (lastEnded.ToString(fmt) != ended)
+                if (lastEnded.ToString(hhmm) != ended.ToString(hhmm))
                 {
                     lastEnded = Now;
                     IsFullmoonEnded = true;
@@ -291,10 +304,20 @@ namespace Dx2Watch
                 {
                     IsFullmoonEnded = false;
                 }
+
+                if (Now < ended.AddSeconds(DURING_ENDED_SECONDS))
+                {
+                    DuringEndedMessage = true;
+                }
+                else
+                {
+                    DuringEndedMessage = false;
+                }
             }
             else
             {
                 IsFullmoonEnded = false;
+                DuringEndedMessage = false;
             }
         }
 
@@ -311,15 +334,34 @@ namespace Dx2Watch
             }
         }
 
-        private DateTime lastMessage;
-        private DateTime lastSnooze;
-        private DateTime lastEnded;
+        private DateTime now;
+        public DateTime Now
+        {
+            get { return now; }
+            set
+            {
+                // システムで時刻合わせをすると盤面とかメッセージのタイミングが狂う
+                // プログラム側では秒単位で変化してるはずなので
+                // 急に 2 分以上の変化があったら初期化する
+                if (Math.Abs(now.Subtract(value).TotalMinutes) > 2)
+                {
+                    Initialize(value);
+                }
+                now = value;
+                CalcMoon();
+                CalcMessage();
+            }
+        }
 
         public bool IsMoonAgeChanged { get; set; }
 
         public bool IsBefore5min { get; set; }
         public bool IsBefore1min { get; set; }
         public bool IsFullmoonEnded { get; set; }
+
+        public bool During5minMessage { get; set; }
+        public bool During1minMessage { get; set; }
+        public bool DuringEndedMessage { get; set; }
     }
 
     public enum MoonAges

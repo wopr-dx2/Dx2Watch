@@ -118,6 +118,7 @@ namespace Dx2Watch
         readonly Bitmap backgroundDevilSummoner;
         readonly Bitmap backgroundDx2;
         readonly Bitmap backgroundAmbient;
+        readonly Bitmap backgroundTetregrammaton;
 
         #endregion
 
@@ -142,6 +143,7 @@ namespace Dx2Watch
         private Bitmap backgroundScaledDevilSummoner;
         private Bitmap backgroundScaledDx2;
         private Bitmap backgroundScaledAmbient;
+        private Bitmap backgroundScaledTetregrammaton;
 
         #endregion
 
@@ -270,6 +272,9 @@ namespace Dx2Watch
             backgroundAmbient = (
                 ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.Ambient, null)
                 as BitmapDrawable).Bitmap;
+            backgroundTetregrammaton = (
+                ResourcesCompat.GetDrawable(owner.Resources, Resource.Drawable.TETREGRAMMATON, null)
+                as BitmapDrawable).Bitmap;
 
             #endregion
         }
@@ -333,6 +338,9 @@ namespace Dx2Watch
             backgroundScaledAmbient =
                 Bitmap.CreateScaledBitmap(
                     backgroundAmbient, rect.Width, rect.Height, true);
+            backgroundScaledTetregrammaton =
+                Bitmap.CreateScaledBitmap(
+                    backgroundTetregrammaton, rect.Width, rect.Height, true);
         }
 
         public void DrawInAmbient(Canvas canvas, MotoRect rect)
@@ -345,6 +353,18 @@ namespace Dx2Watch
                         backgroundAmbient, rect.Width, rect.Height, true);
             }
             canvas.DrawBitmap(backgroundScaledAmbient, rect.Left, rect.Top, backgroundPaint);
+        }
+
+        public void DrawTetregrammaton(Canvas canvas, MotoRect rect)
+        {
+            canvas.DrawColor(backColor);
+            if (backgroundScaledTetregrammaton == null)
+            {
+                backgroundScaledTetregrammaton =
+                    Bitmap.CreateScaledBitmap(
+                        backgroundTetregrammaton, rect.Width, rect.Height, true);
+            }
+            canvas.DrawBitmap(backgroundScaledTetregrammaton, rect.Left, rect.Top, backgroundPaint);
         }
 
         public void Draw(Canvas canvas, MotoRect rect)

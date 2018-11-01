@@ -102,7 +102,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\xml\watch_face.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\TETREGRAMMATON.png" />
+  </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>

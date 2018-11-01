@@ -100,37 +100,32 @@ namespace Dx2Watch
             msgImage = new MessageImage(owner);
 
             Mode = Modes.Text;
+            Message = Messages.none;
         }
 
-        public void Show(Messages msg, long sec = 3000)
+        public void Rescale(MotoRect rect)
         {
-            switch (Mode)
-            {
-                case Modes.Text:
-                    msgText.Message = msg;
-                    msgText.Show(sec);
-                    break;
-                case Modes.Image:
-                    msgImage.Balloon = msg;
-                    msgImage.Show(sec);
-                    break;
-                default:
-                    break;
-            }
+            msgImage.Rescale(rect);
         }
 
-        public void Cancel()
+        private bool visible;
+        public bool Visible
         {
-            switch (Mode)
+            get { return visible; }
+            set
             {
-                case Modes.Text:
-                    msgText.Cancel();
-                    break;
-                case Modes.Image:
-                    msgImage.Cancel();
-                    break;
-                default:
-                    break;
+                visible = value;
+                switch (Mode)
+                {
+                    case Modes.Text:
+                        msgText.Visible = visible;
+                        break;
+                    case Modes.Image:
+                        msgImage.Visible = visible;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -147,15 +142,15 @@ namespace Dx2Watch
             }
         }
 
-        public void Draw(Canvas canvas, Rect bounds)
+        public void Draw(Canvas canvas, MotoRect rect)
         {
             switch (Mode)
             {
                 case Modes.Text:
-                    msgText.Draw(canvas, bounds);
+                    msgText.Draw(canvas, rect);
                     break;
                 case Modes.Image:
-                    msgImage.Draw(canvas, bounds);
+                    msgImage.Draw(canvas, rect);
                     break;
                 default:
                     break;
@@ -164,6 +159,36 @@ namespace Dx2Watch
 
         public enum Modes { Text, Image }
         public Modes Mode { get; set; }
+
+        private bool antiAlias;
+        public bool AntiAlias
+        {
+            get { return antiAlias; }
+            set
+            {
+                antiAlias = value;
+                msgText.AntiAlias = antiAlias;
+                msgImage.FilterBitmap = antiAlias;
+            }
+        }
+
+        private Messages message;
+        public Messages Message
+        {
+            get { return message; }
+            set
+            {
+                message = value;
+                msgText.Message = message;
+                msgImage.Message = message;
+            }
+        }
+
+        //public bool IsVisible 
+        //    => msgText.Visible | (msgImage.Message != Messages.none & msgImage.Visible);
+
+        public bool IsCharSelecting
+             => Mode == Modes.Image & msgImage.Message == Messages.none & msgImage.Visible;
     }
 
     public enum Characters { Player, TemplarDragon, Eileen, Shionyan, none }
