@@ -117,7 +117,7 @@ namespace Dx2Watch
             ci = new System.Globalization.CultureInfo("ja-JP");
         }
 
-        public void Draw(Canvas canvas, Rect bounds)
+        public void Draw(Canvas canvas, MotoRect rect)
         {
             if (!IsListMode)   // 左上の円弧
             {
@@ -193,9 +193,9 @@ namespace Dx2Watch
                 paint.AntiAlias = true;
                 paint.TextSize = 18;
 
-                int width = bounds.Width();
+                int width = rect.Width;
                 float widthF = 0f;
-                Rect rect = new Rect();
+                Rect graphRect = new Rect();
 
                 DateTime dateTime;
 
@@ -207,12 +207,12 @@ namespace Dx2Watch
 
                     paint.Color = COLOR_PURPLE;
 
-                    rect.Left = width / 2 - 30;
-                    rect.Top = 100 + i * 24;
-                    rect.Right = rect.Left + 120;
-                    rect.Bottom = rect.Top + 20;
+                    graphRect.Left = width / 2 - 30;
+                    graphRect.Top = 100 + i * 24;
+                    graphRect.Right = graphRect.Left + 120;
+                    graphRect.Bottom = graphRect.Top + 20;
 
-                    canvas.DrawRect(rect, paint);
+                    canvas.DrawRect(graphRect, paint);
 
                     #endregion
 
@@ -224,21 +224,21 @@ namespace Dx2Watch
 
                         if (dateTime.Minute <= 54)
                         {
-                            rect.Left += (55 - dateTime.Minute) * 12;
+                            graphRect.Left += (55 - dateTime.Minute) * 12;
                         }
 
                         if (dateTime.Minute >= 51)
                         {
-                            rect.Right -= (dateTime.Minute - 50) * 12;
+                            graphRect.Right -= (dateTime.Minute - 50) * 12;
                         }
 
-                        canvas.DrawRect(rect, paint);
+                        canvas.DrawRect(graphRect, paint);
 
                         // 元に戻す（時間表示のため）
-                        rect.Left = width / 2 - 30;
-                        rect.Top = 100 + i * 24;
-                        rect.Right = rect.Left + 120;
-                        rect.Bottom = rect.Top + 20;
+                        graphRect.Left = width / 2 - 30;
+                        graphRect.Top = 100 + i * 24;
+                        graphRect.Right = graphRect.Left + 120;
+                        graphRect.Bottom = graphRect.Top + 20;
                     }
 
                     #endregion
@@ -251,8 +251,8 @@ namespace Dx2Watch
                     {
                         canvas.DrawText(
                             dateTime.ToString(FORMAT_MMDD),
-                            rect.Left - 60,
-                            rect.Top + rect.Height() - 4, paint);
+                            graphRect.Left - 60,
+                            graphRect.Top + graphRect.Height() - 4, paint);
                     }
                     else
                     {
@@ -260,8 +260,8 @@ namespace Dx2Watch
                         {
                             canvas.DrawText(
                                 dateTime.ToString(FORMAT_MMDD),
-                                rect.Left - 60,
-                                rect.Top + rect.Height() - 4, paint);
+                                graphRect.Left - 60,
+                                graphRect.Top + graphRect.Height() - 4, paint);
                         }
                     }
 
@@ -272,8 +272,8 @@ namespace Dx2Watch
                     widthF = paint.MeasureText(dateTime.ToString(FORMAT_HHMM));
                     canvas.DrawText(
                         dateTime.ToString(FORMAT_HHMM),
-                        rect.Left + (rect.Width() - widthF) / 2,
-                        rect.Top + rect.Height() - 4, paint);
+                        graphRect.Left + (graphRect.Width() - widthF) / 2,
+                        graphRect.Top + graphRect.Height() - 4, paint);
 
                     #endregion
                 }

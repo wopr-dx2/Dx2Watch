@@ -302,6 +302,11 @@ namespace Dx2Watch
             private WatchGraph watchGraph;
 
             /// <summary>
+            /// 40 分前から表示する円
+            /// </summary>
+            private WatchReminder watchReminder;
+
+            /// <summary>
             /// メッセージを表示します
             /// </summary>
             private WatchNotify watchNotify;
@@ -489,6 +494,8 @@ namespace Dx2Watch
                 watchBackground.Rescale(motoRect);
                 // グラフ
                 watchGraph = new WatchGraph();
+                // リマインダ
+                watchReminder = new WatchReminder(motoRect);
                 // 時針、分針、秒針
                 watchHands = new WatchHands(owner);
                 // 日時
@@ -759,6 +766,7 @@ namespace Dx2Watch
                 watchHands.Calendar = nowTime;
                 watchTime.Calendar = nowTime;
                 watchDate.Calendar = nowTime;
+                watchReminder.Calendar = nowTime;
 
                 // 背景を描画します。
                 // アンビエントモードであるかどうか判別します。
@@ -789,11 +797,18 @@ namespace Dx2Watch
                     watchBackground.MoonAge = moon.Age;
                     watchBackground.Draw(canvas, motoRect);
 
+                    // リマインダ
+                    if (!watchBackground.IsListMode)
+                    {
+                        watchReminder.LastFullMoon = moon.LastFullMoon;
+                        watchReminder.Draw(canvas, motoRect);
+                    }
+
                     #region next fullmoon graph
 
                     watchGraph.LastFullMoon = moon.LastFullMoon;
                     watchGraph.MoonAge = moon.Age;
-                    watchGraph.Draw(canvas, motoRect.ToRect());
+                    watchGraph.Draw(canvas, motoRect);
 
                     #endregion
 
@@ -804,7 +819,7 @@ namespace Dx2Watch
                         moon.Age != MoonAges.Full ||
                         watchGraph.IsListMode)
                     {
-                        watchDate.Draw(canvas, motoRect.ToRect());
+                        watchDate.Draw(canvas, motoRect);
                     }
 
                     #endregion

@@ -85,6 +85,7 @@
     <Compile Include="WatchGraph.cs" />
     <Compile Include="WatchHands.cs" />
     <Compile Include="WatchNotify.cs" />
+    <Compile Include="WatchReminder.cs" />
     <Compile Include="WatchTime.cs" />
   </ItemGroup>
   <ItemGroup>

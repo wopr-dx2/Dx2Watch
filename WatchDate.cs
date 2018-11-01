@@ -95,50 +95,84 @@ namespace Dx2Watch
         Paint paint;
 
         // 英字表示したい
-        System.Globalization.CultureInfo ci;
+        readonly System.Globalization.CultureInfo ci;
 
         public WatchDate()
         {
-            paint = new Paint();
-            paint.Color = Color.White;  // 文字 白
-            paint.AntiAlias = true;     // アンチエイリアス
+            paint = new Paint
+            {
+                Color = Color.White,  // 文字 白
+                AntiAlias = true     // アンチエイリアス
+            };
 
             // en-US 固定
             ci = new System.Globalization.CultureInfo("en-US");
         }
 
-        public void Draw(Canvas canvas, Rect bounds)
+        //public void Draw(Canvas canvas, Rect bounds)
+        //{
+        //    DateTime datetime = WatchfaceUtility.ConvertToDateTime(Calendar);
+        //    string date = "";
+        //    Rect rect = new Rect();
+        //    int dateHeight = 0;
+
+        //    // d
+        //    paint.TextSize = 28;
+        //    date = datetime.ToString("dd", ci);
+        //    paint.GetTextBounds(date, 0, date.Length, rect);
+        //    dateHeight = rect.Height();
+        //    canvas.DrawText(date,
+        //        (bounds.Width() / 4.0f * 3.5f) - (rect.Width() / 2.0f),
+        //        (bounds.Height() + rect.Height()) / 2.0f, paint);
+
+        //    // ddd
+        //    paint.TextSize = 16;
+        //    date = datetime.ToString("ddd", ci).ToUpper();
+        //    paint.GetTextBounds(date, 0, date.Length, rect);
+        //    canvas.DrawText(date,
+        //        (bounds.Width() / 4.0f * 3.5f) - (rect.Width() / 2.0f),
+        //        (bounds.Height() + rect.Height()) / 2.0f - dateHeight - 10, paint);
+
+        //    // MMM
+        //    paint.TextSize = 16;
+        //    date = datetime.ToString("MMM", ci).ToUpper();
+        //    paint.GetTextBounds(date, 0, date.Length, rect);
+        //    canvas.DrawText(date,
+        //        (bounds.Width() / 4.0f * 3.5f) - (rect.Width() / 2.0f),
+        //        (bounds.Height() + rect.Height()) / 2.0f + dateHeight + rect.Height(), paint);
+        //}
+
+        public void Draw(Canvas canvas, MotoRect rect)
         {
             DateTime datetime = WatchfaceUtility.ConvertToDateTime(Calendar);
             string date = "";
-            Rect rect = new Rect();
+            Rect textRect = new Rect();
             int dateHeight = 0;
 
             // d
             paint.TextSize = 28;
             date = datetime.ToString("dd", ci);
-            paint.GetTextBounds(date, 0, date.Length, rect);
-            dateHeight = rect.Height();
+            paint.GetTextBounds(date, 0, date.Length, textRect);
+            dateHeight = textRect.Height();
             canvas.DrawText(date,
-                (bounds.Width() / 4.0f * 3.5f) - (rect.Width() / 2.0f),
-                (bounds.Height() + rect.Height()) / 2.0f, paint);
+                (rect.Width / 4.0f * 3.5f) - (textRect.Width() / 2.0f),
+                (rect.Height + textRect.Height()) / 2.0f, paint);
 
             // ddd
             paint.TextSize = 16;
             date = datetime.ToString("ddd", ci).ToUpper();
-            paint.GetTextBounds(date, 0, date.Length, rect);
+            paint.GetTextBounds(date, 0, date.Length, textRect);
             canvas.DrawText(date,
-                (bounds.Width() / 4.0f * 3.5f) - (rect.Width() / 2.0f),
-                (bounds.Height() + rect.Height()) / 2.0f - dateHeight - 10, paint);
+                (rect.Width / 4.0f * 3.5f) - (textRect.Width() / 2.0f),
+                (rect.Height + textRect.Height()) / 2.0f - dateHeight - 10, paint);
 
             // MMM
             paint.TextSize = 16;
             date = datetime.ToString("MMM", ci).ToUpper();
-            paint.GetTextBounds(date, 0, date.Length, rect);
+            paint.GetTextBounds(date, 0, date.Length, textRect);
             canvas.DrawText(date,
-                (bounds.Width() / 4.0f * 3.5f) - (rect.Width() / 2.0f),
-                (bounds.Height() + rect.Height()) / 2.0f + dateHeight + rect.Height(), paint);
-
+                (rect.Width / 4.0f * 3.5f) - (textRect.Width() / 2.0f),
+                (rect.Height + textRect.Height()) / 2.0f + dateHeight + textRect.Height(), paint);
         }
 
         public Java.Util.Calendar Calendar { get; set; }
