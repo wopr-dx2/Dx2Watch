@@ -72,6 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="MessageImage.cs" />
     <Compile Include="MessageText.cs" />
     <Compile Include="MoonAge.cs" />
@@ -86,10 +87,12 @@
     <Compile Include="WatchHands.cs" />
     <Compile Include="WatchNotify.cs" />
     <Compile Include="WatchReminder.cs" />
+    <Compile Include="WatchList.cs" />
     <Compile Include="WatchTime.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="README.md" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml">

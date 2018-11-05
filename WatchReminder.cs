@@ -95,11 +95,11 @@ namespace Dx2Watch
 
         Path path;
         Paint paint;
-        readonly RectF rectF;
-
+        readonly int margin = 50;
+        RectF rectF;
         readonly Color COLOR_BLUE = Color.Argb(255, 0, 103, 128);
 
-        public WatchReminder(MotoRect motoRect)
+        public WatchReminder()
         {
             path = new Path();
             paint = new Paint
@@ -110,7 +110,14 @@ namespace Dx2Watch
                 StrokeCap = Paint.Cap.Butt
             };
             paint.SetStyle(Paint.Style.Stroke);
-            rectF = new RectF(50, 50, 270, 270);
+
+            //rectF = new RectF(50, 50, 270, 270);
+        }
+
+        public void Rescale(MotoRect motoRect)
+        {
+            rectF = new RectF(margin, margin,
+                motoRect.Right - margin, motoRect.Bottom - margin);
         }
 
         public void Draw(Canvas canvas, MotoRect rect)

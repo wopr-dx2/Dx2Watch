@@ -296,15 +296,20 @@ namespace Dx2Watch
             /// </summary>
             private WatchHands watchHands;
 
-            /// <summary>
-            /// 満月グラフを左上またはリスト表示する制御
-            /// </summary>
-            private WatchGraph watchGraph;
+            ///// <summary>
+            ///// 満月グラフを左上またはリスト表示する制御
+            ///// </summary>
+            //private WatchGraph watchGraph;
+
+            ///// <summary>
+            ///// 40 分前から表示する円
+            ///// </summary>
+            //private WatchReminder watchReminder;
 
             /// <summary>
-            /// 40 分前から表示する円
+            /// リストまたは左上スケールおよび残り時間
             /// </summary>
-            private WatchReminder watchReminder;
+            private WatchList watchList;
 
             /// <summary>
             /// メッセージを表示します
@@ -492,10 +497,18 @@ namespace Dx2Watch
                 // 背景
                 watchBackground = new WatchBackground(owner);
                 watchBackground.Rescale(motoRect);
+                watchBackground.FaceStyle = FaceStyles.Moon;
                 // グラフ
-                watchGraph = new WatchGraph();
+                //watchGraph = new WatchGraph();
+                //watchGraph.Rescale(motoRect);
                 // リマインダ
-                watchReminder = new WatchReminder(motoRect);
+                //watchReminder = new WatchReminder();
+                //watchReminder.Rescale(motoRect);
+                // リスト | グラフ & リマインダ
+                watchList = new WatchList();
+                watchList.Rescale(motoRect);
+                watchList.IsListMode = false;
+                watchList.FaceStyle = FaceStyles.Moon;
                 // 時針、分針、秒針
                 watchHands = new WatchHands(owner);
                 // 日時
@@ -690,7 +703,8 @@ namespace Dx2Watch
                             {
                                 // 文字盤に絵を描くかリスト表示にするか切り替え
                                 watchBackground.IsListMode = !watchBackground.IsListMode;
-                                watchGraph.IsListMode = !watchGraph.IsListMode;
+                                //watchGraph.IsListMode = !watchGraph.IsListMode;
+                                watchList.IsListMode = !watchList.IsListMode;
                             }
                             else                        // 左下
                             {
@@ -705,13 +719,15 @@ namespace Dx2Watch
                             if (y < motoRect.Center.Y)  // 右上
                             {
                                 // 文字盤に絵を描く場合、ロゴか月か切り替え
-                                if (watchBackground.FaceMode == WatchBackground.FaceModes.Logo)
+                                if (watchBackground.FaceStyle == FaceStyles.Logo)
                                 {
-                                    watchBackground.FaceMode = WatchBackground.FaceModes.Moon;
+                                    watchBackground.FaceStyle = FaceStyles.Moon;
+                                    watchList.FaceStyle = FaceStyles.Moon;
                                 }
                                 else
                                 {
-                                    watchBackground.FaceMode = WatchBackground.FaceModes.Logo;
+                                    watchBackground.FaceStyle = FaceStyles.Logo;
+                                    watchList.FaceStyle = FaceStyles.Logo;
                                 }
                             }
                             else                        // 右下
@@ -749,10 +765,13 @@ namespace Dx2Watch
 
                 // OnTapCommand & 画像の Scaled 用に画面サイズを取得
                 motoRect.SetBounds(bounds);
-                // OnCreate 時に初期値で済んでるはずやけど念のため
+                // Moto 360 1st 以外の端末やと 1 回走る
                 if (motoRect.IsSizeChanged)
                 {
                     watchBackground.Rescale(motoRect);
+                    //watchGraph.Rescale(motoRect);
+                    //watchReminder.Rescale(motoRect);
+                    watchList.Rescale(motoRect);
                     watchNotify.Rescale(motoRect);
                 }
 
@@ -766,7 +785,8 @@ namespace Dx2Watch
                 watchHands.Calendar = nowTime;
                 watchTime.Calendar = nowTime;
                 watchDate.Calendar = nowTime;
-                watchReminder.Calendar = nowTime;
+                //watchReminder.Calendar = nowTime;
+                watchList.Calendar = nowTime;
 
                 // 背景を描画します。
                 // アンビエントモードであるかどうか判別します。
@@ -798,57 +818,37 @@ namespace Dx2Watch
                     watchBackground.Draw(canvas, motoRect);
 
                     // リマインダ
-                    if (!watchBackground.IsListMode)
-                    {
-                        watchReminder.LastFullMoon = moon.LastFullMoon;
-                        watchReminder.Draw(canvas, motoRect);
-                    }
+                    //if (!watchBackground.IsListMode)
+                    //{
+                    //    watchReminder.LastFullMoon = moon.LastFullMoon;
+                    //    watchReminder.Draw(canvas, motoRect);
+                    //}
 
                     #region next fullmoon graph
 
-                    watchGraph.LastFullMoon = moon.LastFullMoon;
-                    watchGraph.MoonAge = moon.Age;
-                    watchGraph.Draw(canvas, motoRect);
+                    //watchGraph.LastFullMoon = moon.LastFullMoon;
+                    //watchGraph.MoonAge = moon.Age;
+                    //watchGraph.Draw(canvas, motoRect);
+                    watchList.LastFullMoon = moon.LastFullMoon;
+                    watchList.MoonAge = moon.Age;
+                    watchList.Draw(canvas, motoRect);
 
                     #endregion
 
                     #region 日付 右側 ddd d MMM
 
                     // 満月の時は描かへんいうんもありかな
-                    if (watchBackground.FaceMode == WatchBackground.FaceModes.Logo ||
+                    if (watchBackground.FaceStyle == FaceStyles.Logo ||
                         moon.Age != MoonAges.Full ||
-                        watchGraph.IsListMode)
+                        watchList.IsListMode)
                     {
                         watchDate.Draw(canvas, motoRect);
                     }
 
                     #endregion
 
-                    #region メッセージ
-
-                    //watchNotify.Draw(canvas, bounds);
-
-                    #endregion
-
                     #region メッセージ表示
 
-                    //if (moon.IsBefore5min)
-                    //{
-                    //    //Xamarin.Essentials.Platform.Vibrator.Vibrate(300);
-                    //    watchNotify.Show(Messages.Before5min, 30000);
-                    //}
-                    //else if (moon.IsBefore1min)
-                    //{
-                    //    //Xamarin.Essentials.Platform.Vibrator.Vibrate(500);
-                    //    watchNotify.Show(Messages.Before1min, 30000);
-                    //}
-                    //else if (moon.IsFullmoonEnded)
-                    //{
-                    //    //Xamarin.Essentials.Platform.Vibrator.Vibrate(100);
-                    //    watchNotify.Show(Messages.Ended, 5000);
-                    //}
-
-                    // メッセージ描画
                     watchNotify.Draw(canvas, motoRect);
 
                     #endregion
@@ -864,7 +864,6 @@ namespace Dx2Watch
                     else
                     {
                         // 月齢・ロゴ描画時
-                        // Draw2 → 針の中心部分が無い
                         watchHands.DrawBorder(canvas, motoRect);
                         watchHands.DrawHands(canvas, motoRect);
                         watchHands.DrawSec(canvas, motoRect);

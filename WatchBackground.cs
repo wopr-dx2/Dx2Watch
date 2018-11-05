@@ -378,7 +378,7 @@ namespace Dx2Watch
                 return;
             }
 
-            if (FaceMode == FaceModes.Logo)
+            if (FaceStyle == FaceStyles.Logo)
             {
                 if (backgroundScaledDevilSummoner == null)
                 {
@@ -561,10 +561,8 @@ namespace Dx2Watch
         // 月齢
         public MoonAges MoonAge { get; set; }
 
-        public enum FaceModes { Logo, Moon }
-
         // 画面表示モード（ロゴか月齢か）
-        public FaceModes FaceMode { get; set; }
+        public FaceStyles FaceStyle { get; set; }
 
         // LowBit Ambient（白黒 2 値）の場合
         public bool FilterBitmap

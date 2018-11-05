@@ -97,7 +97,9 @@ namespace Dx2Watch
 
         Path path;
         Paint paint;
-        readonly RectF rectF;
+
+        readonly int margin = 40;
+        RectF rectF;
 
         // グラフ色（紫っぽい部分）
         readonly Color COLOR_PURPLE = Color.Argb(255, 101, 31, 156);
@@ -111,10 +113,16 @@ namespace Dx2Watch
         {
             path = new Path();
             paint = new Paint();
-            rectF = new RectF(40, 40, 280, 280);    // 左上の円弧
+            //rectF = new RectF(40, 40, 280, 280);    // 左上の円弧
 
             // ja-JP 固定
             ci = new System.Globalization.CultureInfo("ja-JP");
+        }
+
+        public void Rescale(MotoRect motoRect)
+        {
+            rectF = new RectF(margin, margin,
+                motoRect.Right - margin, motoRect.Bottom - margin);
         }
 
         public void Draw(Canvas canvas, MotoRect rect)
@@ -177,11 +185,15 @@ namespace Dx2Watch
                     paint.TextSize = 18;
 
                     path.Reset();
-                    path.AddCircle(180f, 180f, 141f, Path.Direction.Cw);
+                    //path.AddCircle(180f, 180f, 141f, Path.Direction.Cw);
+                    //path.AddCircle(
+                    //    rectF.CenterX(), rectF.CenterY(),
+                    //    rectF.Width() / 2 + 1, Path.Direction.Cw);
+                    path.AddArc(rectF, 200, 60);
 
                     canvas.DrawTextOnPath(
                         NextFullMoon.ToString(FORMAT_HHMM, ci),
-                        path, 540, 0, paint);
+                        path, 0, 0, paint);
 
                     #endregion
                 }

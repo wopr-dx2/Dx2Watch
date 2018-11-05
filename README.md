@@ -24,3 +24,6 @@ Chronoir_net.Chronica.WatchfaceExtension
 https://chronoir.net/use-chronica-watchface-extension/
 
 DOBON.net
+
+# Characters Illust
+まるぐれ さん　@Margaret_75628

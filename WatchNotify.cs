@@ -99,7 +99,7 @@ namespace Dx2Watch
             msgText = new MessageText();
             msgImage = new MessageImage(owner);
 
-            Mode = Modes.Text;
+            NotifyStyle = NotifyStyles.Text;
             Message = Messages.none;
         }
 
@@ -115,12 +115,12 @@ namespace Dx2Watch
             set
             {
                 visible = value;
-                switch (Mode)
+                switch (NotifyStyle)
                 {
-                    case Modes.Text:
+                    case NotifyStyles.Text:
                         msgText.Visible = visible;
                         break;
-                    case Modes.Image:
+                    case NotifyStyles.Image:
                         msgImage.Visible = visible;
                         break;
                     default:
@@ -134,22 +134,22 @@ namespace Dx2Watch
             msgImage.CharSelect(sec);
             if (msgImage.Character == Characters.none)
             {
-                Mode = Modes.Text;
+                NotifyStyle = NotifyStyles.Text;
             }
             else
             {
-                Mode = Modes.Image;
+                NotifyStyle = NotifyStyles.Image;
             }
         }
 
         public void Draw(Canvas canvas, MotoRect rect)
         {
-            switch (Mode)
+            switch (NotifyStyle)
             {
-                case Modes.Text:
+                case NotifyStyles.Text:
                     msgText.Draw(canvas, rect);
                     break;
-                case Modes.Image:
+                case NotifyStyles.Image:
                     msgImage.Draw(canvas, rect);
                     break;
                 default:
@@ -157,8 +157,7 @@ namespace Dx2Watch
             }
         }
 
-        public enum Modes { Text, Image }
-        public Modes Mode { get; set; }
+        public NotifyStyles NotifyStyle { get; set; }
 
         private bool antiAlias;
         public bool AntiAlias
@@ -188,9 +187,6 @@ namespace Dx2Watch
         //    => msgText.Visible | (msgImage.Message != Messages.none & msgImage.Visible);
 
         public bool IsCharSelecting
-             => Mode == Modes.Image & msgImage.Message == Messages.none & msgImage.Visible;
+             => NotifyStyle == NotifyStyles.Image & msgImage.Message == Messages.none & msgImage.Visible;
     }
-
-    public enum Characters { Player, TemplarDragon, Eileen, Shionyan, none }
-    public enum Messages { Before5min, Before1min, Ended, none }
 }
