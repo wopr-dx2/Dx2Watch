@@ -97,7 +97,7 @@ namespace Dx2Watch
 
         readonly Paint listPaint;
         readonly Paint listGrayPaint;
-        Paint listTextPaint;
+        readonly Paint listTextPaint;
         readonly Rect[] listRects;
 
         float dateLeft;
@@ -116,6 +116,9 @@ namespace Dx2Watch
         RectF scaleRectF;
         RectF scaleTextRectF;
         RectF reminderRectF;
+
+        readonly int scaleStartAngle = 210;
+        readonly int scaleSweepAngle = 60;
 
         // グラフ色（紫っぽい部分）
         readonly Color COLOR_PURPLE = Color.Argb(255, 101, 31, 156);
@@ -223,7 +226,7 @@ namespace Dx2Watch
             scaleRectF = new RectF(unit * 3, unit * 3,
                 motoRect.Right - unit * 3, motoRect.Bottom - unit * 3);
 
-            scalePath.AddArc(scaleRectF, 200, 60);
+            scalePath.AddArc(scaleRectF, scaleStartAngle, scaleSweepAngle);
             scalePaint.StrokeWidth = unit * 2;
 
             // テキスト
@@ -236,7 +239,7 @@ namespace Dx2Watch
                 360.0f * textWidth / ((float)Math.PI * scaleTextRectF.Width());
             //360.0f * textWidth / (2.0f * (float)Math.PI * scaleTextRectF.Width());
             float textStart =
-                200 + (60 / 2) - textSweep / 2;
+                scaleStartAngle + (scaleSweepAngle / 2) - textSweep / 2;
 
             scaleTextPath.AddArc(scaleTextRectF, textStart, textSweep);
 
@@ -328,6 +331,7 @@ namespace Dx2Watch
 
         void DrawScale(Canvas canvas, MotoRect rect)
         {
+            //if (MoonAge == MoonAges.Full & FaceStyle == FaceStyles.Moon)
             if (MoonAge == MoonAges.Full)
             {
                 return;
@@ -343,10 +347,10 @@ namespace Dx2Watch
             {
                 scaleGrayPath.Reset();
 
-                float startAngle = 200f + (55 - minute) * 6;
-                if (startAngle < 200f)
+                float startAngle = scaleStartAngle + (55 - minute) * 6;
+                if (startAngle < scaleStartAngle)
                 {
-                    startAngle = 200f;
+                    startAngle = scaleStartAngle;
                 }
 
                 float sweepAngle = 30;
@@ -375,7 +379,7 @@ namespace Dx2Watch
             DateTime now = WatchfaceUtility.ConvertToDateTime(Calendar);
             int totalMins = (int)NextFullMoon.Subtract(now).TotalMinutes;
 
-            if (totalMins > 40 | totalMins == 0)
+            if (totalMins > 40 | totalMins < 0)
             {
                 return;
             }
@@ -385,11 +389,67 @@ namespace Dx2Watch
             //float startAngle = (45 - min) * 6;
             //float sweepAngle = min * 6;
 
+            int nowMin = now.Minute;
             int nextMin = NextFullMoon.Minute;
-            float startAngle = (nextMin * 6) + 15f;
-            float sweepAngle = nextMin * 6;
 
-            reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
+            float startAngle = 0f;
+            float sweepAngle = 0f;
+
+            if (nowMin < 15 & nextMin <= 15)
+            {
+                startAngle = 270f + nowMin * 6f;
+                sweepAngle = (nextMin - nowMin) * 6f;
+
+                reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
+            }
+            else if (nowMin < 15)
+            {
+                startAngle = 270f + nowMin * 6f;
+                sweepAngle = 360f - startAngle;
+
+                reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
+
+                startAngle = 0f;
+                sweepAngle = (nextMin - 15) * 6f;
+
+                reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
+            }
+            else if (nextMin <= 15)
+            {
+                startAngle = (nowMin - 15) * 6f;
+                sweepAngle = 270f - startAngle;
+
+                reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
+
+                startAngle = 270f;
+                sweepAngle = nextMin * 6f;
+
+                reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
+            }
+            else if (nextMin < nowMin)
+            {
+                startAngle = (nowMin - 15) * 6f;
+                sweepAngle = 360f - startAngle;
+
+                reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
+
+                startAngle = 0f;
+                sweepAngle = (nextMin - 15) * 6f;
+
+                reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
+            }
+            else
+            {
+                startAngle = (nowMin - 15) * 6f;
+                sweepAngle = (nextMin - nowMin) * 6f;
+
+                reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
+            }
+
+            //float startAngle = (nextMin * 6f) + 15f;
+            //float sweepAngle = totalMins * 6;
+
+            //reminderPath.AddArc(reminderRectF, startAngle, sweepAngle);
 
             canvas.DrawPath(reminderPath, reminderPaint);
         }
