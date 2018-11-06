@@ -107,12 +107,17 @@ namespace Dx2Watch
         {
             string time = WatchfaceUtility.ConvertToDateTime(Calendar).ToString("HH:mm");
 
+            int unit = Scale.Unit(rect);
+
             // HH:mm
 
-            paint.TextSize = 50;
+            //paint.TextSize = 50;
+            paint.TextSize = unit * 5f;
             float width = paint.MeasureText(time);
+            //canvas.DrawText(time,
+            //    (rect.Width - width) / 2, 80, paint);
             canvas.DrawText(time,
-                (rect.Width - width) / 2, 80, paint);
+                (rect.Width - width) / 2, unit * 8f, paint);
         }
 
         public Java.Util.Calendar Calendar { get; set; }

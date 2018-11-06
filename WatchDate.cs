@@ -109,39 +109,6 @@ namespace Dx2Watch
             ci = new System.Globalization.CultureInfo("en-US");
         }
 
-        //public void Draw(Canvas canvas, Rect bounds)
-        //{
-        //    DateTime datetime = WatchfaceUtility.ConvertToDateTime(Calendar);
-        //    string date = "";
-        //    Rect rect = new Rect();
-        //    int dateHeight = 0;
-
-        //    // d
-        //    paint.TextSize = 28;
-        //    date = datetime.ToString("dd", ci);
-        //    paint.GetTextBounds(date, 0, date.Length, rect);
-        //    dateHeight = rect.Height();
-        //    canvas.DrawText(date,
-        //        (bounds.Width() / 4.0f * 3.5f) - (rect.Width() / 2.0f),
-        //        (bounds.Height() + rect.Height()) / 2.0f, paint);
-
-        //    // ddd
-        //    paint.TextSize = 16;
-        //    date = datetime.ToString("ddd", ci).ToUpper();
-        //    paint.GetTextBounds(date, 0, date.Length, rect);
-        //    canvas.DrawText(date,
-        //        (bounds.Width() / 4.0f * 3.5f) - (rect.Width() / 2.0f),
-        //        (bounds.Height() + rect.Height()) / 2.0f - dateHeight - 10, paint);
-
-        //    // MMM
-        //    paint.TextSize = 16;
-        //    date = datetime.ToString("MMM", ci).ToUpper();
-        //    paint.GetTextBounds(date, 0, date.Length, rect);
-        //    canvas.DrawText(date,
-        //        (bounds.Width() / 4.0f * 3.5f) - (rect.Width() / 2.0f),
-        //        (bounds.Height() + rect.Height()) / 2.0f + dateHeight + rect.Height(), paint);
-        //}
-
         public void Draw(Canvas canvas, MotoRect rect)
         {
             DateTime datetime = WatchfaceUtility.ConvertToDateTime(Calendar);
@@ -149,8 +116,11 @@ namespace Dx2Watch
             Rect textRect = new Rect();
             int dateHeight = 0;
 
+            int unit = Scale.Unit(rect);
+
             // d
-            paint.TextSize = 28;
+            //paint.TextSize = 28;
+            paint.TextSize = unit * 2.8f;
             date = datetime.ToString("dd", ci);
             paint.GetTextBounds(date, 0, date.Length, textRect);
             dateHeight = textRect.Height();
@@ -159,15 +129,20 @@ namespace Dx2Watch
                 (rect.Height + textRect.Height()) / 2.0f, paint);
 
             // ddd
-            paint.TextSize = 16;
+            //paint.TextSize = 16;
+            paint.TextSize = unit * 1.6f;
             date = datetime.ToString("ddd", ci).ToUpper();
             paint.GetTextBounds(date, 0, date.Length, textRect);
+            //canvas.DrawText(date,
+            //    (rect.Width / 4.0f * 3.5f) - (textRect.Width() / 2.0f),
+            //    (rect.Height + textRect.Height()) / 2.0f - dateHeight - 10, paint);
             canvas.DrawText(date,
                 (rect.Width / 4.0f * 3.5f) - (textRect.Width() / 2.0f),
-                (rect.Height + textRect.Height()) / 2.0f - dateHeight - 10, paint);
+                (rect.Height + textRect.Height()) / 2.0f - dateHeight - unit, paint);
 
             // MMM
-            paint.TextSize = 16;
+            //paint.TextSize = 16;
+            paint.TextSize = unit * 1.6f;
             date = datetime.ToString("MMM", ci).ToUpper();
             paint.GetTextBounds(date, 0, date.Length, textRect);
             canvas.DrawText(date,

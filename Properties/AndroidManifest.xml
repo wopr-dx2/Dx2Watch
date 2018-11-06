@@ -3,7 +3,7 @@
      package属性は、アプリのパッケージ名（ Google PlayでのURLで使用します ）を表します。
      versionCode属性は、Google Playで管理するためのバージョン番号（整数）を表します。
      versionName属性は、Google Playで表示するアプリのバージョンを表します。 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="Dx2Watch.Dx2Watch" android:versionCode="1" android:versionName="0.9.1" android:installLocation="preferExternal">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="Dx2Watch.Dx2Watch" android:versionCode="1" android:versionName="0.9.2" android:installLocation="preferExternal">
 	<!-- uses-sdk要素は、Android SDKのバージョンを表します。
          minSdkVersion属性は、ターゲットにするAndroid SDKの最小バージョンを表します。
          ※ Watch Face API は Android SDK 5.0（API Level 21）以上が必要です。

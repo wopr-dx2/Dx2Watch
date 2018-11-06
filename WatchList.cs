@@ -193,14 +193,16 @@ namespace Dx2Watch
 
         public void Rescale(MotoRect motoRect)
         {
-            int imageWidth = 360;
-            int moonWidth = 200;
+            //int imageWidth = 360;
+            //int moonWidth = 200;
+
+            //int scaledMoonWidth = motoRect.Width * moonWidth / imageWidth;
+            //int leftMargin = (motoRect.Width - scaledMoonWidth) / 2;
+
+            //int unit = leftMargin / 7;
+            int unit = Scale.Unit(motoRect);
+
             int margin = 3;
-
-            int scaledMoonWidth = motoRect.Width * moonWidth / imageWidth;
-            int leftMargin = (motoRect.Width - scaledMoonWidth) / 2;
-
-            int unit = leftMargin / 7;
 
             // リスト
             for (int i = 0; i < 6; i++)
